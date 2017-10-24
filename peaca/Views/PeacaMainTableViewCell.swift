@@ -39,12 +39,29 @@ class PeacaMainTableViewCell: UITableViewCell {
             self.profileName.text = party.writer.name
         }
         
-        self.locationLabel.text = party.destinationName
         self.profileImage.sd_setImage(with: URL(string:party.writer.pictureUrl), completed: nil)
         
-        loadFirstPhotoForPlace(placeID: party.destinationId)
+        if party.destinationImage == nil {
+            Common.getPhotoWithGooglePlaceID(party.destinationId) { (photo) in
+                self.locationImage.image = photo
+                party.destinationImage = photo
+            }
+        } else {
+            self.locationImage.image = party.destinationImage
+        }
         
-        self.dateLabel.text = party.date.string(format: .custom("yyyy.mm.dd (E) hh:MMa"))
+        if party.destination == nil {
+            Common.getPlaceWithGooglePlaceID(party.destinationId, completion: { (place) in
+                self.locationLabel.text = place.name
+                party.destination = place
+            }) { (error) in
+                self.locationLabel.text = party.destinationName
+            }
+        } else {
+            self.locationLabel.text = party.destination?.name
+        }
+     
+        self.dateLabel.text = party.date.string(format: .custom("yyyy.MM.dd (E) hh:mma"))
         
         // TODO: Status check 구현
         self.statusLabel.backgroundColor = UIColor(patternImage: UIImage(named:"ing_label_background")!)
@@ -52,31 +69,6 @@ class PeacaMainTableViewCell: UITableViewCell {
         
         // TODO: member count 필요함
         self.personsLabel.text = "\(party.persons)명"
-    }
-    
-    func loadFirstPhotoForPlace(placeID: String) {
-        GMSPlacesClient.shared().lookUpPhotos(forPlaceID: placeID) { (photos, error) -> Void in
-            if let error = error {
-                // TODO: handle the error.
-                print("Error: \(error.localizedDescription)")
-            } else {
-                if let firstPhoto = photos?.results.first {
-                    self.loadImageForMetadata(photoMetadata: firstPhoto)
-                }
-            }
-        }
-    }
-    
-    func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata) {
-        GMSPlacesClient.shared().loadPlacePhoto(photoMetadata, callback: {
-            (photo, error) -> Void in
-            if let error = error {
-                // TODO: handle the error.
-                print("Error: \(error.localizedDescription)")
-            } else {
-                self.locationImage.image = photo;
-            }
-        })
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -246,27 +246,15 @@ class WriteFormViewController: FormViewController {
         
         print(params)
         
-        Alamofire.request("http://localhost:8000/apis/party", method: .post, parameters: params, encoding: JSONEncoding.default, headers: Defaults[.header] as? HTTPHeaders).responseJSON { (response:DataResponse<Any>) in
-            print(response)
+        NetworkManager.postParty(params: params) { (json) in
+            let id = json["id"] as! Int
             
-            if response.error == nil {
-                //TODO: 성공시 메세지 출력 후 메인으로
-                if let json = response.result.value as? [String:Any] {
-                    let id = json["id"] as! Int
-                    
-                    let memberData = ["id": Defaults[.id] as String!,
-                                      "picture_url": Defaults[.picture_url] as String!,
-                                      "master": true] as [String : Any]
-                    
-                    self.ref.child("members").child("\(id)").child(Defaults[.id] as String!).setValue(memberData)
-                    self.navigationController?.popViewController(animated: true)
-                } else {
-                    //TODO: 비정상 응답 처리
-                }
-                
-            } else {
-                //TODO: 등록 실패시 처리
-            }
+            let memberData = ["id": Defaults[.id] as String!,
+                              "picture_url": Defaults[.picture_url] as String!,
+                              "master": true] as [String : Any]
+            
+            self.ref.child("members").child("\(id)").child(Defaults[.id] as String!).setValue(memberData)
+            self.navigationController?.popViewController(animated: true)
         }
     }
 }

@@ -13,6 +13,7 @@ import FBSDKLoginKit
 import Firebase
 import Alamofire
 import SwiftyUserDefaults
+import KRProgressHUD
 
 class IntroViewController: UIViewController {
     
@@ -23,33 +24,26 @@ class IntroViewController: UIViewController {
         self.performSegue(withIdentifier: "go_main", sender: nil)
     }
     
-    func handleResponse(_ response:DataResponse<Any>) {
-        if response.error == nil {
-            if let json = response.result.value as? [String: Any] {
-                print(json)
-                
-                Defaults[.id] = json["id"] as? String
-                Defaults[.token] = json["token"] as? String
-                Defaults[.name] = json["name"] as? String
-                Defaults[.picture_url] = json["picture_url"] as? String
-                let header: HTTPHeaders = ["id": Defaults[.id]!, "token": Defaults[.token]!]
-                Defaults[.header] = header
-                
-                self.goMain()
-            }
-        } else {
-            // ERROR
-        }
+    func handleResponse(_ json:[String:Any]) {
+        Defaults[.id] = json["id"] as? String
+        Defaults[.token] = json["token"] as? String
+        Defaults[.name] = json["name"] as? String
+        Defaults[.picture_url] = json["picture_url"] as? String
+        let header: HTTPHeaders = ["id": Defaults[.id]!, "token": Defaults[.token]!]
+        Defaults[.header] = header
+        
+        self.goMain()
     }
     
     func facebookLoginSuccess() {
         if isLogined {
             print("is Logined ")
-            Alamofire.request("http://localhost:8000/apis/user", headers:Defaults[.header] as? HTTPHeaders).responseJSON { (response) in
-                self.handleResponse(response)
-            }
+            NetworkManager.getUser(completion: { (json) in
+                self.handleResponse(json)
+            })
             
         } else {
+            KRProgressHUD.show()
             FBSDKGraphRequest.init(graphPath: "me", parameters: ["fields":"email,name,birthday,gender, picture.type(large)"]).start(completionHandler: { (connection:FBSDKGraphRequestConnection?, result:Any?, error:Error?) in
                 if (error == nil) {
                     if let result1 = result as? Dictionary<String, AnyObject> {
@@ -68,11 +62,13 @@ class IntroViewController: UIViewController {
                         
                         print("params : \(params)")
                         
-                        Alamofire.request("http://localhost:8000/apis/user", method: .post, parameters: params, encoding:JSONEncoding.default).responseJSON { (response) in
-                            self.handleResponse(response)
-                        }
+                        KRProgressHUD.dismiss()
+                        NetworkManager.postUser(params: params, completion: { (json) in
+                            self.handleResponse(json)
+                        })
                     }
                 } else {
+                    KRProgressHUD.dismiss()
                     print("Facebook Graph Get Error")
                 }
             })
@@ -108,6 +104,7 @@ class IntroViewController: UIViewController {
     }
     
     @IBAction func loginButtonClick() {
+        KRProgressHUD.show()
         let loginManager = LoginManager()
         loginManager.logIn(readPermissions:[.publicProfile, .email, .userBirthday], viewController: self) { loginResult in
             switch loginResult {
@@ -137,6 +134,8 @@ class IntroViewController: UIViewController {
                     })
                 }
             }
+            
+            KRProgressHUD.dismiss()
         }
     }
 

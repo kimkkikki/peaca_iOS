@@ -39,11 +39,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>FanMenu.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>GTMSessionFetcher.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -64,7 +59,12 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Macaw.xcscheme</key>
+		<key>KRActivityIndicatorView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>KRProgressHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -104,11 +104,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>SWXMLHash.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>SideMenu.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -125,6 +120,11 @@
 			<false/>
 		</dict>
 		<key>SwiftyUserDefaults.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SwipeCellKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

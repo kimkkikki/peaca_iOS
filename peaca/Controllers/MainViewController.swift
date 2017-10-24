@@ -7,9 +7,6 @@
 //
 
 import UIKit
-import FanMenu
-import Macaw
-import Alamofire
 import SwiftyUserDefaults
 
 class MainViewController: UIViewController {
@@ -32,26 +29,17 @@ class MainViewController: UIViewController {
     }
     
     func getDataFromServer(_ completion: @escaping () -> ()) {
-        Alamofire.request("http://localhost:8000/apis/party", method: .get, encoding: JSONEncoding.default, headers: Defaults[.header] as? HTTPHeaders).responseJSON { (response:DataResponse<Any>) in
-            //            print(response)
-            if response.error == nil {
-                if let jsonArray = response.result.value as? NSArray {
-                    self.partyList.removeAll()
-                    for dict in jsonArray {
-                        let party = Party(dict: dict as! [String:Any])
-                        self.partyList.append(party)
-                    }
-                    self.mainTableView.reloadData()
-                    // TODO:Stop HUD
-                    
-                    completion()
-                    print(self.partyList)
-                }
-            } else {
-                //TODO: Error Handling
-                print("ERROR! \(String(describing: response.error))")
-                completion()
+        NetworkManager.getParty { (jsonArray) in
+            self.partyList.removeAll()
+            for dict in jsonArray {
+                let party = Party(dict: dict as! [String:Any])
+                self.partyList.append(party)
             }
+            self.mainTableView.reloadData()
+            // TODO:Stop HUD
+            
+            completion()
+            print(self.partyList)
         }
     }
     
@@ -91,7 +79,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(partyList[indexPath.row])
-        //TODO: Go to Detail
         self.performSegue(withIdentifier: "go_detail", sender: partyList[indexPath.row])
     }
 }
@@ -107,11 +94,11 @@ extension MainViewController: MenuViewControllerDelegate {
         if selectedMenu == "menu_write" {
             self.performSegue(withIdentifier: "go_write", sender: nil)
         } else if selectedMenu == "menu_list" {
-            print("list")
+            self.performSegue(withIdentifier: "go_my_list", sender: nil)
         } else if selectedMenu == "menu_profile" {
             print("profile")
         } else {
-            print("setting")
+            self.performSegue(withIdentifier: "go_setting", sender: nil)
         }
     }
 }

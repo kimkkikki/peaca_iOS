@@ -22,10 +22,9 @@ target 'peaca' do
   pod 'SwiftDate'
   
   pod 'NotificationBannerSwift'
+  pod 'SwipeCellKit'
+  pod 'KRProgressHUD'
 #  pod 'SCLAlertView'
-
-  pod 'Macaw'
-  pod 'FanMenu'
   
   pod 'JSQMessagesViewController'
   

@@ -15,9 +15,17 @@ class PartyMember {
     var userId:String
     var userPictureUrl:String
     
+    var party:Party?
+    
     init(_ dict:[String:Any]) {
         self.id = dict["id"] as! Int
-        self.partyId = dict["party"] as! Int
+        if let partyId = dict["party"] as? Int {
+            self.partyId = partyId
+        } else {
+            let party = Party(dict: dict["party"] as! [String : Any])
+            self.partyId = party.id
+            self.party = party
+        }
         self.status = dict["status"] as! String
         self.userId = dict["user"] as! String
         self.userPictureUrl = dict["user_picture_url"] as! String

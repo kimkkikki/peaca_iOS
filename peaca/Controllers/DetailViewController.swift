@@ -14,6 +14,14 @@ import Alamofire
 import GoogleMaps
 import GooglePlaces
 
+enum PartyMemberStatus {
+    case Member
+    case Master
+    case Ban
+    case Exit
+    case NotMember
+}
+
 class DetailViewController: UIViewController {
     
     @IBOutlet weak var createLabel:UILabel!
@@ -27,16 +35,20 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var mapView:GMSMapView!
     @IBOutlet weak var contentsTextView:UITextView!
     @IBOutlet weak var scrollView:UIScrollView!
+    @IBOutlet weak var contentView:UIView!
+    @IBOutlet weak var goChatButton:UIButton!
     
     var party:Party!
     var ref: DatabaseReference = Database.database().reference()
     var partyMembers = [PartyMember]()
+    var imageViews = [UIImageView]()
+    var myStatus = PartyMemberStatus.NotMember
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Created
-        self.createLabel.text = "작성일 \(party.created.string(format: .custom("yyyy.mm.dd")))"
+        self.createLabel.text = "작성일 \(party.created.string(format: .custom("yyyy.MM.dd")))"
         
         // Writer Profile 이미지
         profileImage.sd_setImage(with: URL(string:party.writer.pictureUrl), completed: nil)
@@ -53,9 +65,8 @@ class DetailViewController: UIViewController {
         // Title
         self.titleLabel.text = party.title
         
-        self.locationNameLabel.text = party.destinationName
         self.contentsTextView.text = party.contents
-        self.dateLabel.text = party.date.string(format: .custom("yyyy.mm.dd (E) hh:MMa"))
+        self.dateLabel.text = party.date.string(format: .custom("yyyy.MM.dd (E) hh:mma"))
         
         let camera = GMSCameraPosition.camera(withTarget: party.destinationPoint.coordinate, zoom: 11.0)
         self.mapView.camera = camera
@@ -64,61 +75,69 @@ class DetailViewController: UIViewController {
         marker.title = party.destinationName
         marker.map = self.mapView
         
+        self.locationImage.image = self.party.destinationImage
+        self.locationNameLabel.text = self.party.destination?.name
         
-        let contentSize = self.contentsTextView.sizeThatFits(self.contentsTextView.bounds.size)
-        var frame = self.contentsTextView.frame
-        frame.size.height = contentSize.height
-        self.contentsTextView.frame = frame
-        
-        self.scrollView.contentSize = CGSize(width: self.scrollView.frame.width, height: frame.height + contentsTextView.frame.origin.y + 10)
-        
-//        aspectRatioTextViewConstraint = NSLayoutConstraint(item: self.myTextViewTitle, attribute: .Height, relatedBy: .Equal, toItem: self.myTextViewTitle, attribute: .Width, multiplier: myTextViewTitle.bounds.height/myTextViewTitle.bounds.width, constant: 1)
-//        self.myTextViewTitle.addConstraint(aspectRatioTextViewConstraint!)
-        
-        if party.writer.id == Defaults[.id] {
-            print("내글")
-        } else {
-            print("다른사람 글")
-        }
-        
-        Alamofire.request("http://localhost:8000/apis/party/\(party.id)", method: .get, encoding: JSONEncoding.default, headers: Defaults[.header] as? HTTPHeaders).responseJSON { (response:DataResponse<Any>) in
-            print(response)
-            
-            if response.error == nil, let jsonArray = response.result.value as? NSArray {
-                for dict in jsonArray {
-                    let dict2 = dict as! [String:Any]
-                    let member = PartyMember(dict2)
-                    self.partyMembers.append(member)
-                    
-                    let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
-                    imageView.sd_setImage(with:  URL(string:dict2["user_picture_url"] as! String), completed: nil)
-                    imageView.layer.cornerRadius = imageView.frame.height/2
-                    imageView.clipsToBounds = true
-//                    self.stackView.addSubview(imageView)
-                }
-                
-                print("partymembers : \(self.partyMembers)")
-                
-            } else {
-                //TODO: Error Handling
-                print("ERROR! \(response.error)")
+        NetworkManager.getPartyMembers(partyId: party.id) { (jsonArray) in
+            for dict in jsonArray {
+                let dict2 = dict as! [String:Any]
+                let member = PartyMember(dict2)
+                self.partyMembers.append(member)
             }
+            
+            self.setMemberImages()
+            self.setMyStatus()
         }
         
-        ref.child("members").child("\(party.id)").observeSingleEvent(of: DataEventType.value) { (snapshot:DataSnapshot) in
-            if let members = snapshot.value as? [String:Any] {
-                for member in members.values {
-//                    let dict = member as! [String:Any]
-//                    let id = dict["id"] as! String
-                    
-                    self.setMemberImages()
+//        ref.child("members").child("\(party.id)").observeSingleEvent(of: DataEventType.value) { (snapshot:DataSnapshot) in
+//            if let members = snapshot.value as? [String:Any] {
+//                for member in members.values {
+////                    let dict = member as! [String:Any]
+////                    let id = dict["id"] as! String
+//
+//                    self.setMemberImages()
+//                }
+//            }
+//        }
+    }
+    
+    func setMyStatus() {
+        let myId = Defaults[.id]
+        for member in partyMembers {
+            if member.userId == myId {
+                if member.status == "master" {
+                    myStatus = PartyMemberStatus.Master
+                } else if member.status == "member" {
+                    myStatus = PartyMemberStatus.Member
+                } else if member.status == "ban" {
+                    myStatus = PartyMemberStatus.Ban
+                } else if member.status == "exit" {
+                    myStatus = PartyMemberStatus.Exit
                 }
             }
         }
     }
     
     func setMemberImages() {
-        //TODO: 참여자들 이미지 셋팅 필요함
+        for imageView in imageViews {
+            imageView.removeFromSuperview()
+        }
+        imageViews.removeAll()
+        
+        let yPosition = self.goChatButton.frame.origin.y - 41.0
+        let xCenter = self.view.center.x
+        let xStart = xCenter - 43.0 * CGFloat(partyMembers.count) / 2.0
+        
+        for (index, member) in partyMembers.enumerated() {
+            let xPosition = xStart + CGFloat(index) * 43.0
+            
+            let imageView = UIImageView(frame: CGRect(x: xPosition, y: yPosition, width: 33, height: 33))
+            imageView.sd_setImage(with:  URL(string:member.userPictureUrl), completed: nil)
+            imageView.layer.cornerRadius = imageView.frame.height/2
+            imageView.clipsToBounds = true
+            self.contentView.addSubview(imageView)
+            imageViews.append(imageView)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -133,6 +152,27 @@ class DetailViewController: UIViewController {
             
             controller.partyMembers = self.partyMembers
             print("prepare chatview")
+        }
+    }
+    
+    @IBAction func joinClick() {
+        switch myStatus {
+        case PartyMemberStatus.NotMember, PartyMemberStatus.Exit:
+            NetworkManager.postPartyMember(partyId: party.id, completion: { (json) in
+                print("join party member success : \(json)")
+                
+                let imMember = PartyMember(json)
+                self.partyMembers.append(imMember)
+                
+                self.setMyStatus()
+                self.setMemberImages()
+                
+                self.performSegue(withIdentifier: "go_chat", sender: nil)
+            })
+            break
+        case PartyMemberStatus.Master, PartyMemberStatus.Member, PartyMemberStatus.Ban:
+            self.performSegue(withIdentifier: "go_chat", sender: nil)
+            break
         }
     }
     
