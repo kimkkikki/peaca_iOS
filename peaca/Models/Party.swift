@@ -30,17 +30,26 @@ class Party {
     
     var destinationImage:UIImage?
     var destination:GMSPlace?
+    var status:String
     
     init(dict:[String:Any]) {
         self.id = dict["id"] as! Int
         self.title = dict["title"] as! String
         self.contents = dict["contents"] as! String
         self.persons = dict["persons"] as! Int
+        
         if let count = dict["count"] as? Int {
             self.count = count
         } else {
             self.count = 0
         }
+        
+        if let status = dict["status"] as? String {
+            self.status = status
+        } else {
+            self.status = "I"
+        }
+        
         self.gender = dict["gender"] as! String
         let dateInRegion = DateInRegion(string: dict["date"] as! String, format: .iso8601(options: [.withInternetDateTime]))!
         self.date = dateInRegion.absoluteDate

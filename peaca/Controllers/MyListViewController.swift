@@ -44,8 +44,8 @@ extension MyListViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "my_list_cell", for: indexPath) as! MyListTableViewCell
         cell.delegate = self
         
-//        cell.setParty(myList[indexPath.row].party!)
-        cell.titleLabel.text = myList[indexPath.row].party!.title
+        cell.setParty(myList[indexPath.row].party!)
+//        cell.titleLabel.text = myList[indexPath.row].party!.title
         
         return cell
     }

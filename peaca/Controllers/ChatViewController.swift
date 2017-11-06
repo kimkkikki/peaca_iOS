@@ -10,9 +10,24 @@ import UIKit
 import JSQMessagesViewController
 import Firebase
 import SideMenu
+import ImageLoader
+import Alamofire
+import SwiftDate
+import SwiftRichString
 
 class ChatViewController: JSQMessagesViewController {
     var partyMembers:[PartyMember]!
+    var party:Party!
+    var profileImages = [String:UIImage]()
+    
+    enum ComparePrevResult {
+        case overMinEqualId
+        case overMinDefferentId
+        case notOverMinEqualId
+        case notOverMinDefferentId
+        case firstMessageOfMe
+        case firstMessageOfAnother
+    }
     
     @IBAction func close() {
         self.navigationController?.popViewController(animated: true)
@@ -32,12 +47,72 @@ class ChatViewController: JSQMessagesViewController {
     lazy var chatRef: DatabaseReference = self.ref.child("chats").child(self.chatroom)
     
     var messages = [JSQMessage]()
-    lazy var outgoingBubbleImageView: JSQMessagesBubbleImage = self.setupOutgoingBubble()
-    lazy var incomingBubbleImageView: JSQMessagesBubbleImage = self.setupIncomingBubble()
+    lazy var outgoingTailBubble: JSQMessagesBubbleImage = self.setupOutgoingBubble(tail: true)
+    lazy var incomingTailBubble: JSQMessagesBubbleImage = self.setupIncomingBubble(tail: true)
+    lazy var outgoingTaillessBubble: JSQMessagesBubbleImage = self.setupOutgoingBubble(tail: false)
+    lazy var incomingTaillessBubble: JSQMessagesBubbleImage = self.setupIncomingBubble(tail: false)
+    
+    private func setupOutgoingBubble(tail: Bool) -> JSQMessagesBubbleImage {
+        if tail {
+            let bubbleImageFactory = JSQMessagesBubbleImageFactory()
+            return bubbleImageFactory!.outgoingMessagesBubbleImage(with: UIColor.uglyYellow)
+        } else {
+            let tailessBubble = JSQMessagesBubbleImageFactory.init(bubble: UIImage.jsq_bubbleCompactTailless(), capInsets: UIEdgeInsets.zero)
+            return tailessBubble!.outgoingMessagesBubbleImage(with: UIColor.uglyYellow)
+        }
+    }
+    
+    private func setupIncomingBubble(tail: Bool) -> JSQMessagesBubbleImage {
+        if tail {
+            let bubbleImageFactory = JSQMessagesBubbleImageFactory()
+            return bubbleImageFactory!.incomingMessagesBubbleImage(with: UIColor.lightGray)
+        } else {
+            let tailessBubble = JSQMessagesBubbleImageFactory.init(bubble: UIImage.jsq_bubbleCompactTailless(), capInsets: UIEdgeInsets.zero)
+            return tailessBubble!.incomingMessagesBubbleImage(with: UIColor.lightGray)
+        }
+    }
+    
+    func comparePrevMessage(indexPath: IndexPath) -> ComparePrevResult {
+        let message = messages[indexPath.item]
+        if messages.indices.contains(indexPath.item - 1) {
+            let prevMessage = messages[indexPath.item - 1]
+            
+            let prevDate = prevMessage.date
+            let date = message.date
+            
+            if date! - prevDate! <= 60 {
+                if message.senderId == prevMessage.senderId {
+                    return ComparePrevResult.notOverMinEqualId
+                } else {
+                    return ComparePrevResult.notOverMinDefferentId
+                }
+            } else {
+                if message.senderId == prevMessage.senderId {
+                    return ComparePrevResult.overMinEqualId
+                } else {
+                    return ComparePrevResult.overMinDefferentId
+                }
+            }
+        } else {
+            if message.senderId == senderId {
+                return ComparePrevResult.firstMessageOfMe
+            } else {
+                return ComparePrevResult.firstMessageOfAnother
+            }
+        }
+    }
+    
+    func initialToolbar() {
+        self.inputToolbar.contentView.rightBarButtonItem.setTitle("전송", for: .normal)
+        self.inputToolbar.contentView.rightBarButtonItem.setTitleColor(UIColor.white, for: .normal)
+        self.inputToolbar.contentView.backgroundColor = UIColor.uglyYellow
+        self.inputToolbar.contentView.textView.placeHolder = "내용을 입력해 주세요"
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        initialToolbar()
         observeMessages()
         
         // No avatars
@@ -49,6 +124,46 @@ class ChatViewController: JSQMessagesViewController {
         super.viewDidAppear(animated)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        for member in partyMembers {
+            ImageLoader.request(with: member.userPictureUrl, onCompletion: { (image, error, operation) in
+                if error == nil {
+                    self.profileImages[member.user.id] = image
+                }
+            })
+        }
+    }
+    
+    override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let currentOffset = scrollView.contentOffset.y
+        
+        if currentOffset <= 10.0 {
+            print("need update more")
+            //TODO: 여기 해결
+//            let more = chatRef.queryStarting(atValue: nil, childKey: self.firstMessageKey).queryLimited(toFirst: 25 + 1)
+//            more.observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
+//
+//                for child in snapshot.children {
+//                    if let childSnapshot = child as? DataSnapshot {
+//                        let messageData = childSnapshot.value as! Dictionary<String, Any>
+//
+//                        if let id = messageData["senderId"] as? String, let name = messageData["senderName"] as? String, let text = messageData["text"] as? String, let timestamp = messageData["timestamp"] as? Double, text.count > 0 {
+//                            let x = timestamp / 1000
+//                            let date = Date(timeIntervalSince1970: x).inLocalRegion()
+//
+//                            self.addMessage(withId: id, name: name, text: text, date: date.absoluteDate)
+//                            self.finishReceivingMessage()
+//
+//                            print("addmore!!")
+//                        }
+//                    }
+//                }
+//            })
+        }
+    }
+    
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageDataForItemAt indexPath: IndexPath!) -> JSQMessageData! {
         return messages[indexPath.item]
     }
@@ -57,53 +172,69 @@ class ChatViewController: JSQMessagesViewController {
         return messages.count
     }
     
-    private func setupOutgoingBubble() -> JSQMessagesBubbleImage {
-        let bubbleImageFactory = JSQMessagesBubbleImageFactory()
-        return bubbleImageFactory!.outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
-    }
-    
-    private func setupIncomingBubble() -> JSQMessagesBubbleImage {
-        let bubbleImageFactory = JSQMessagesBubbleImageFactory()
-        return bubbleImageFactory!.incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! JSQMessagesCollectionViewCell
+        cell.textView!.textColor = UIColor.black
+        cell.textView!.font = UIFont(name: "NotoSansCJKkr-Regular", size: 14.0)
+        
+        return cell
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAt indexPath: IndexPath!) -> JSQMessageBubbleImageDataSource! {
-        let message = messages[indexPath.item] // 1
-        if message.senderId == senderId { // 2
-            return outgoingBubbleImageView
-        } else { // 3
-            return incomingBubbleImageView
+        switch comparePrevMessage(indexPath: indexPath) {
+        case .notOverMinDefferentId:
+            return incomingTaillessBubble
+        case .notOverMinEqualId:
+            return outgoingTaillessBubble
+        case .overMinDefferentId, .firstMessageOfAnother:
+            return incomingTailBubble
+        case .overMinEqualId, .firstMessageOfMe:
+            return outgoingTailBubble
         }
     }
     
     // Avatar Image
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
-        let defaultImage = UIImage(named: "userAvatar")
-        let image = JSQMessagesAvatarImageFactory.avatarImage(with: defaultImage, diameter: UInt(kJSQMessagesCollectionViewAvatarSizeDefault))
-        return image
+        switch comparePrevMessage(indexPath: indexPath) {
+        case .firstMessageOfAnother, .firstMessageOfMe, .overMinDefferentId, .overMinEqualId:
+            let message = messages[indexPath.item]
+            guard let image = profileImages[message.senderId] else {
+                return JSQMessagesAvatarImageFactory.avatarImage(with: UIImage(named: "userAvatar"), diameter: UInt(kJSQMessagesCollectionViewAvatarSizeDefault))
+            }
+            let avatarImage = JSQMessagesAvatarImageFactory.avatarImage(with: image, diameter: UInt(kJSQMessagesCollectionViewAvatarSizeDefault))
+            return avatarImage
+        case .notOverMinDefferentId, .notOverMinEqualId:
+            return nil
+        }
     }
     
     private var newMessageRefHandle: DatabaseHandle?
     private var updatedMessageRefHandle: DatabaseHandle?
     
-    private func addMessage(withId id: String, name: String, text: String) {
-        if let message = JSQMessage(senderId: id, displayName: name, text: text) {
+    private func addMessage(withId id: String, name: String, text: String, date: Date) {
+        if let message = JSQMessage(senderId: id, senderDisplayName: name, date: date, text: text) {
             messages.append(message)
         }
     }
     
     private func observeMessages() {
-        let messageQuery = chatRef.queryLimited(toLast:25)
+        let messageQuery = chatRef.queryOrdered(byChild: "timestamp")
+        //.queryLimited(toLast:25)
         
-        // We can use the observe method to listen for new
-        // messages being written to the Firebase DB
         newMessageRefHandle = messageQuery.observe(.childAdded, with: { (snapshot) -> Void in
-            let messageData = snapshot.value as! Dictionary<String, String>
+            let messageData = snapshot.value as! Dictionary<String, Any>
             
-            if let id = messageData["senderId"] as String!, let name = messageData["senderName"] as String!, let text = messageData["text"] as String!, text.characters.count > 0 {
-                self.addMessage(withId: id, name: name, text: text)
+            if let id = messageData["senderId"] as? String, let name = messageData["senderName"] as? String, let text = messageData["text"] as? String, let timestamp = messageData["timestamp"] as? Double, text.count > 0 {
+                let x = timestamp / 1000
+                let date = Date(timeIntervalSince1970: x).inLocalRegion()
+                
+                self.addMessage(withId: id, name: name, text: text, date: date.absoluteDate)
                 self.finishReceivingMessage()
-            } else if let id = messageData["senderId"] as String!, let photoURL = messageData["photoURL"] as String! {
+            }
+            
+//            self.firstMessageKey = (snapshot.children.allObjects.first as! DataSnapshot).key
+            
+//            else if let id = messageData["senderId"] as! String, let photoURL = messageData["photoURL"] as! String {
 //                if let mediaItem = JSQPhotoMediaItem(maskAsOutgoing: id == self.senderId) {
 //                    self.addPhotoMessage(withId: id, key: snapshot.key, mediaItem: mediaItem)
 //
@@ -111,9 +242,9 @@ class ChatViewController: JSQMessagesViewController {
 //                        self.fetchImageDataAtURL(photoURL, forMediaItem: mediaItem, clearsPhotoMessageMapOnSuccessForKey: nil)
 //                    }
 //                }
-            } else {
-                print("Error! Could not decode message data")
-            }
+//            } else {
+//                print("Error! Could not decode message data")
+//            }
         })
     }
     
@@ -127,87 +258,87 @@ class ChatViewController: JSQMessagesViewController {
     }
     
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
-        // 1
         let itemRef = chatRef.childByAutoId()
+        let messageItem = ["senderId": senderId!, "senderName": senderDisplayName!, "type": "text", "text": text!, "timestamp": Firebase.ServerValue.timestamp()] as [String : Any]
         
-        // 2
-        let messageItem = [
-            "senderId": senderId!,
-            "senderName": senderDisplayName!,
-            "type": "text",
-            "text": text!,
-            ]
-        
-        // 3
         itemRef.setValue(messageItem)
         
-        // 4
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
         
         // 5
         finishSendingMessage()
 //        isTyping = false
+        
+        let params: Parameters = ["message": text!]
+        NetworkManager.sendPushToPartyMembers(partyId: party.id, params: params, completion: nil)
     }
     
     override func didPressAccessoryButton(_ sender: UIButton) {
         print("accessory")
     }
+    
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, didTapAvatarImageView avatarImageView: UIImageView!, at indexPath: IndexPath!) {
+        //TODO: 프로필 데이터 전달 필요
+        self.performSegue(withIdentifier: "go_profile", sender: nil)
+    }
+    
+    // 풍선 위
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAt indexPath: IndexPath!) -> NSAttributedString! {
+        let message = messages[indexPath.item]
+        let date = message.date.string(custom: "hh:mma")
+        
+        let style = Style.default {
+            $0.font = FontAttribute("NotoSansCJKkr-Regular", size: 11.0)
+            $0.color = UIColor.black
+            $0.align = .right
+        }
+        let attributedString = date.set(style: style)
+        
+        return attributedString
+    }
+    
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForMessageBubbleTopLabelAt indexPath: IndexPath!) -> CGFloat {
+        switch comparePrevMessage(indexPath: indexPath) {
+        case .overMinDefferentId, .overMinEqualId, .firstMessageOfMe, .firstMessageOfAnother:
+            return 17.0
+        case .notOverMinDefferentId, .notOverMinEqualId:
+            return 0.0
+        }
+    }
+    
+    // Cell 위
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellTopLabelAt indexPath: IndexPath!) -> CGFloat {
+        if messages.indices.contains(indexPath.item - 1) {
+            let message = messages[indexPath.item]
+            let prevMessage = messages[indexPath.item - 1]
+            
+            let prevDate = prevMessage.date.string(custom: "yyyyMMdd")
+            let date = message.date.string(custom: "yyyyMMdd")
+            
+            if prevDate == date {
+                return 0.0
+            } else {
+                return 17.0
+            }
+        } else {
+            return 17.0
+        }
+    }
+    
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForCellTopLabelAt indexPath: IndexPath!) -> NSAttributedString! {
+        let message = messages[indexPath.item]
+        let date = message.date.string(custom: "yyyy.MM.dd eee")
+        
+        let style = Style.default {
+            $0.font = FontAttribute("NotoSansCJKkr-Regular", size: 13.0)
+            $0.color = UIColor.black
+            $0.align = .center
+        }
+        let attributedString = date.set(style: style)
+        
+        return attributedString
+    }
 }
 
 
-//// 설명 텍스트 (닉네임?)
-//override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForCellTopLabelAt indexPath: IndexPath!) -> NSAttributedString! {
-//    let message = messages[indexPath.item]
-//    
-//    if message.senderId == senderId {
-//        return nil
-//    } else {
-//        guard let senderDisplayName = message.senderDisplayName else {
-//            assertionFailure()
-//            return nil
-//        }
-//        let attributedString = NSAttributedString(string: senderDisplayName)
-//        var range = NSRange(location: 0, length: attributedString.length)
-//        attributedString.attribute(NSForegroundColorAttributeName, at: 1, effectiveRange: &range)
-//        return attributedString
-//    }
-//}
-//
-//override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAt indexPath: IndexPath!) -> NSAttributedString! {
-//    let message = messages[indexPath.item]
-//    
-//    if message.senderId == senderId {
-//        return nil
-//    } else {
-//        guard let senderDisplayName = message.senderDisplayName else {
-//            assertionFailure()
-//            return nil
-//        }
-//        let attributedString = NSAttributedString(string: senderDisplayName)
-//        var range = NSRange(location: 0, length: attributedString.length)
-//        attributedString.attribute(NSForegroundColorAttributeName, at: 1, effectiveRange: &range)
-//        return attributedString
-//    }
-//}
-//
-//override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellTopLabelAt indexPath: IndexPath!) -> CGFloat {
-//    let message = messages[indexPath.item]
-//    
-//    if message.senderId == senderId {
-//        return 0
-//    } else {
-//        return 17.0
-//    }
-//}
-//
-//// 설명 텍스트 Height
-//override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForMessageBubbleTopLabelAt indexPath: IndexPath!) -> CGFloat {
-//    //return 17.0
-//    let message = messages[indexPath.item]
-//    
-//    if message.senderId == senderId {
-//        return 0
-//    } else {
-//        return 17.0
-//    }
-//}
+

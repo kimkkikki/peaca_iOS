@@ -63,12 +63,15 @@ class PeacaMainTableViewCell: UITableViewCell {
      
         self.dateLabel.text = party.date.string(format: .custom("yyyy.MM.dd (E) hh:mma"))
         
-        // TODO: Status check 구현
-        self.statusLabel.backgroundColor = UIColor(patternImage: UIImage(named:"ing_label_background")!)
-        self.statusLabel.backgroundColor = UIColor(patternImage: UIImage(named:"close_label_background")!)
+        if party.status == "I" {
+            self.statusLabel.backgroundColor = UIColor(patternImage: UIImage(named:"ing_label_background")!)
+            self.statusLabel.text = "모집중"
+        } else {
+            self.statusLabel.backgroundColor = UIColor(patternImage: UIImage(named:"close_label_background")!)
+            self.statusLabel.text = "모집완료"
+        }
         
-        // TODO: member count 필요함
-        self.personsLabel.text = "\(party.persons)명"
+        self.personsLabel.text = "\(party.count)/\(party.persons)"
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

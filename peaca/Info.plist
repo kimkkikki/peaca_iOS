@@ -53,6 +53,8 @@
 	<string>Show your location on the map</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Usage Description</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

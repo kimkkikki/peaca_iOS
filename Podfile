@@ -20,11 +20,15 @@ target 'peaca' do
   pod 'GooglePlacePicker'
   
   pod 'SwiftDate'
+  pod 'SwiftRichString'
   
   pod 'NotificationBannerSwift'
   pod 'SwipeCellKit'
   pod 'KRProgressHUD'
-#  pod 'SCLAlertView'
+  
+  pod 'SCLAlertView'
+  pod 'PMAlertController'
+  pod 'CDAlertView'
   
   pod 'JSQMessagesViewController'
   
@@ -34,6 +38,7 @@ target 'peaca' do
   
   pod 'Alamofire'
   pod 'SDWebImage'
+  pod 'ImageLoader'
   
   pod 'SwiftyUserDefaults'
   

@@ -10,13 +10,14 @@ import Foundation
 import Alamofire
 import SwiftyUserDefaults
 import KRProgressHUD
+import CDAlertView
 
 enum APP_TARGET {
     case LOCAL
     case PRODUCTION
 }
 
-let APP_STATUS = APP_TARGET.LOCAL
+let APP_STATUS = APP_TARGET.PRODUCTION
 
 class NetworkManager {
     
@@ -31,24 +32,39 @@ class NetworkManager {
     }
     
     class private func handleError(error:Error?) {
-        print("error : \(String(describing: error))")
+        let alert = CDAlertView(title: "error!", message: String(describing: error), type: .custom(image: UIImage(named:"peacaSymbol")!))
+        let doneAction = CDAlertViewAction(title: "OK")
+        alert.add(action: doneAction)
+        alert.show()
     }
     
-    class private func sendToServer(endPoint: String, method: HTTPMethod, params: Parameters?, completion:@escaping (Any?) -> ()) {
-        KRProgressHUD.show()
+    class private func sendToServer(endPoint: String, method: HTTPMethod, params: Parameters?, progress: Bool, completion:@escaping (Any?) -> ()) {
+        if progress {
+            KRProgressHUD.show()
+        }
         Alamofire.request(getUrl() + endPoint, method: method, parameters: params, encoding: JSONEncoding.default, headers:Defaults[.header] as? HTTPHeaders).responseJSON { (response) in
             if response.error == nil {
-                completion(response.result.value)
-                KRProgressHUD.dismiss()
+                if progress {
+                    KRProgressHUD.dismiss({
+                        completion(response.result.value)
+                    })
+                } else {
+                    completion(response.result.value)
+                }
             } else {
-                handleError(error: response.error)
-                KRProgressHUD.dismiss()
+                if progress {
+                    KRProgressHUD.dismiss({
+                        handleError(error: response.error)
+                    })
+                } else {
+                    handleError(error: response.error)
+                }
             }
         }
     }
     
     class func getUser(completion:@escaping ([String:Any]) -> ()) {
-        sendToServer(endPoint: "/apis/user", method: .get, params: nil) { (value) in
+        sendToServer(endPoint: "/apis/user", method: .get, params: nil, progress: true) { (value) in
             if let json = value as? [String: Any] {
                 completion(json)
             }
@@ -56,15 +72,15 @@ class NetworkManager {
     }
     
     class func postUser(params:Parameters, completion:@escaping ([String:Any]) -> ()) {
-        sendToServer(endPoint: "/apis/user", method: .post, params: params) { (value) in
+        sendToServer(endPoint: "/apis/user", method: .post, params: params, progress: true) { (value) in
             if let json = value as? [String: Any] {
                 completion(json)
             }
         }
     }
     
-    class func getParty(completion:@escaping (NSArray) -> ()) {
-        sendToServer(endPoint: "/apis/party", method: .get, params: nil) { (value) in
+    class func getParty(page:Int, completion:@escaping (NSArray) -> ()) {
+        sendToServer(endPoint: "/apis/party?page=\(page)", method: .get, params: nil, progress: true) { (value) in
             if let jsonArray = value as? NSArray {
                 completion(jsonArray)
             }
@@ -72,7 +88,7 @@ class NetworkManager {
     }
     
     class func postParty(params:Parameters, completion:@escaping ([String:Any]) -> ()) {
-        sendToServer(endPoint: "/apis/party", method: .post, params: params) { (value) in
+        sendToServer(endPoint: "/apis/party", method: .post, params: params, progress: true) { (value) in
             if let json = value as? [String:Any] {
                 completion(json)
             }
@@ -80,7 +96,7 @@ class NetworkManager {
     }
     
     class func getPartyMembers(partyId:Int, completion:@escaping (NSArray) -> ()) {
-        sendToServer(endPoint: "/apis/party/\(partyId)", method: .get, params: nil) { (value) in
+        sendToServer(endPoint: "/apis/party/\(partyId)", method: .get, params: nil, progress: true) { (value) in
             if let jsonArray = value as? NSArray {
                 completion(jsonArray)
             }
@@ -88,7 +104,7 @@ class NetworkManager {
     }
     
     class func postPartyMember(partyId:Int, completion:@escaping ([String:Any]) -> ()) {
-        sendToServer(endPoint: "/apis/party/\(partyId)", method: .post, params: nil) { (value) in
+        sendToServer(endPoint: "/apis/party/\(partyId)", method: .post, params: nil, progress: true) { (value) in
             if let json = value as? [String:Any] {
                 completion(json)
             }
@@ -96,10 +112,16 @@ class NetworkManager {
     }
     
     class func getMyList(completion:@escaping (NSArray) -> ()) {
-        sendToServer(endPoint: "/apis/user/party", method: .get, params: nil) { (value) in
+        sendToServer(endPoint: "/apis/user/party", method: .get, params: nil, progress: true) { (value) in
             if let jsonArray = value as? NSArray {
                 completion(jsonArray)
             }
+        }
+    }
+    
+    class func sendPushToPartyMembers(partyId:Int, params:Parameters, completion:(() -> ())?) {
+        sendToServer(endPoint: "/apis/party/\(partyId)/push", method: .post, params: params, progress: false) { (value) in
+            completion?()
         }
     }
 }

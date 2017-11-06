@@ -11,6 +11,7 @@
 		541D9C1E1F53D71B0040A96C /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541D9C1A1F53D71B0040A96C /* MainViewController.swift */; };
 		54405B181F9DC33A0055C4C5 /* MyListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54405B171F9DC33A0055C4C5 /* MyListTableViewCell.swift */; };
 		54405B1A1F9DCAF60055C4C5 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54405B191F9DCAF60055C4C5 /* SettingViewController.swift */; };
+		54405B1E1F9F35F10055C4C5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54405B1D1F9F35F10055C4C5 /* GoogleService-Info.plist */; };
 		5448F85C1F7223EE00ABC8FE /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5448F85B1F7223EE00ABC8FE /* Profile.swift */; };
 		544F144D1F9D6B49007080DA /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F144C1F9D6B49007080DA /* NetworkManager.swift */; };
 		544F144F1F9DB431007080DA /* MyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F144E1F9DB431007080DA /* MyListViewController.swift */; };
@@ -21,7 +22,6 @@
 		5473A30B1F45152E00CCA3B7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5473A3091F45152E00CCA3B7 /* LaunchScreen.storyboard */; };
 		5473A3161F45152F00CCA3B7 /* peacaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5473A3151F45152F00CCA3B7 /* peacaTests.swift */; };
 		5473A3211F45152F00CCA3B7 /* peacaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5473A3201F45152F00CCA3B7 /* peacaUITests.swift */; };
-		5473A32F1F451FEA00CCA3B7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5473A32E1F451FEA00CCA3B7 /* GoogleService-Info.plist */; };
 		5498E0FD1F8EEC0A00950DC0 /* GOTHIC.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 5498E0F21F8EEBE200950DC0 /* GOTHIC.TTF */; };
 		5498E0FE1F8EEC0A00950DC0 /* GOTHICB.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 5498E0F31F8EEBE200950DC0 /* GOTHICB.TTF */; };
 		5498E0FF1F8EEC0A00950DC0 /* GOTHICBI.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 5498E0F41F8EEBE200950DC0 /* GOTHICBI.TTF */; };
@@ -84,6 +84,7 @@
 		541D9C1A1F53D71B0040A96C /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		54405B171F9DC33A0055C4C5 /* MyListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListTableViewCell.swift; sourceTree = "<group>"; };
 		54405B191F9DCAF60055C4C5 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		54405B1D1F9F35F10055C4C5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5448F85B1F7223EE00ABC8FE /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		544F144C1F9D6B49007080DA /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		544F144E1F9DB431007080DA /* MyListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListViewController.swift; sourceTree = "<group>"; };
@@ -102,7 +103,6 @@
 		5473A31C1F45152F00CCA3B7 /* peacaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = peacaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5473A3201F45152F00CCA3B7 /* peacaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = peacaUITests.swift; sourceTree = "<group>"; };
 		5473A3221F45152F00CCA3B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5473A32E1F451FEA00CCA3B7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5498E0F21F8EEBE200950DC0 /* GOTHIC.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = GOTHIC.TTF; sourceTree = "<group>"; };
 		5498E0F31F8EEBE200950DC0 /* GOTHICB.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = GOTHICB.TTF; sourceTree = "<group>"; };
 		5498E0F41F8EEBE200950DC0 /* GOTHICBI.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = GOTHICBI.TTF; sourceTree = "<group>"; };
@@ -127,6 +127,7 @@
 		54E60ACE1F9866B90011B057 /* ChatMemberTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMemberTableViewCell.swift; sourceTree = "<group>"; };
 		54E60AD11F9873020011B057 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		54E9AEBB1F5684F400914389 /* Party.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Party.swift; sourceTree = "<group>"; };
+		54FD43AA1FA0256D00735299 /* peaca.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = peaca.entitlements; sourceTree = "<group>"; };
 		54FEA1DF1F5F9370009752AC /* WriteFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WriteFormViewController.swift; sourceTree = "<group>"; };
 		54FEA1E21F5FC8F2009752AC /* GMSMapForm.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GMSMapForm.xib; sourceTree = "<group>"; };
 		54FEA1E41F5FD1FE009752AC /* GMSMapForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GMSMapForm.swift; sourceTree = "<group>"; };
@@ -280,7 +281,8 @@
 				5473A3001F45152E00CCA3B7 /* AppDelegate.swift */,
 				5473A3091F45152E00CCA3B7 /* LaunchScreen.storyboard */,
 				5473A3041F45152E00CCA3B7 /* Main.storyboard */,
-				5473A32E1F451FEA00CCA3B7 /* GoogleService-Info.plist */,
+				54FD43AA1FA0256D00735299 /* peaca.entitlements */,
+				54405B1D1F9F35F10055C4C5 /* GoogleService-Info.plist */,
 				5473A30C1F45152E00CCA3B7 /* Info.plist */,
 				5473A3071F45152E00CCA3B7 /* Assets.xcassets */,
 			);
@@ -444,6 +446,11 @@
 						DevelopmentTeam = 88AC987WHG;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					5473A3101F45152F00CCA3B7 = {
 						CreatedOnToolsVersion = 8.3.3;
@@ -493,11 +500,11 @@
 				5498E1031F8EEC0A00950DC0 /* NotoSansCJKkr-DemiLight.otf in Resources */,
 				5498E1041F8EEC0A00950DC0 /* NotoSansCJKkr-Light.otf in Resources */,
 				5498E1051F8EEC0A00950DC0 /* NotoSansCJKkr-Medium.otf in Resources */,
+				54405B1E1F9F35F10055C4C5 /* GoogleService-Info.plist in Resources */,
 				5498E1061F8EEC0A00950DC0 /* NotoSansCJKkr-Regular.otf in Resources */,
 				5498E1071F8EEC0A00950DC0 /* NotoSansCJKkr-Thin.otf in Resources */,
 				54FEA1E31F5FC8F2009752AC /* GMSMapForm.xib in Resources */,
 				5473A30B1F45152E00CCA3B7 /* LaunchScreen.storyboard in Resources */,
-				5473A32F1F451FEA00CCA3B7 /* GoogleService-Info.plist in Resources */,
 				5473A3081F45152E00CCA3B7 /* Assets.xcassets in Resources */,
 				5473A3061F45152E00CCA3B7 /* Main.storyboard in Resources */,
 			);
@@ -547,6 +554,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-peaca/Pods-peaca-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/CDAlertView/CDAlertView.framework",
 				"${BUILT_PRODUCTS_DIR}/Eureka/Eureka.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
@@ -554,17 +562,21 @@
 				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/ImageLoader/ImageLoader.framework",
 				"${BUILT_PRODUCTS_DIR}/JSQMessagesViewController/JSQMessagesViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/JSQSystemSoundPlayer/JSQSystemSoundPlayer.framework",
 				"${BUILT_PRODUCTS_DIR}/KRActivityIndicatorView/KRActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/KRProgressHUD/KRProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/PMAlertController/PMAlertController.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/SCLAlertView/SCLAlertView.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SideMenu/SideMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftDate/SwiftDate.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftRichString/SwiftRichString.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework",
 				"${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework",
 				"${BUILT_PRODUCTS_DIR}/TimeZoneLocate/TimeZoneLocate.framework",
@@ -575,6 +587,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CDAlertView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Eureka.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
@@ -582,17 +595,21 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImageLoader.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSQMessagesViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSQSystemSoundPlayer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KRActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KRProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarqueeLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NotificationBannerSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PMAlertController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCLAlertView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SideMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftDate.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftRichString.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyUserDefaults.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwipeCellKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TimeZoneLocate.framework",
@@ -920,6 +937,7 @@
 			baseConfigurationReference = 5554A0BBDD7A3311E62DB757 /* Pods-peaca.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = peaca/peaca.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 88AC987WHG;
@@ -951,6 +969,7 @@
 			baseConfigurationReference = 5C9CBF46C3A925D8774D2DA2 /* Pods-peaca.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = peaca/peaca.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 88AC987WHG;

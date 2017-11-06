@@ -7,9 +7,9 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>703826515030-1ba3bo4sm5e7fcsvot8gk7nb9aelf8ti.apps.googleusercontent.com</string>
+	<string>703826515030-8cebsuj1pasidpbg1142qbl0ekffmr4q.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.703826515030-1ba3bo4sm5e7fcsvot8gk7nb9aelf8ti</string>
+	<string>com.googleusercontent.apps.703826515030-8cebsuj1pasidpbg1142qbl0ekffmr4q</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCGIOImU0jKVPZhx1rC8EXGxJnvQyY7x1U</string>
 	<key>GCM_SENDER_ID</key>
@@ -17,23 +17,23 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>ca.pea.peaca</string>
+	<string>me.peaca.peaca</string>
 	<key>PROJECT_ID</key>
 	<string>peaca-2fe0b</string>
 	<key>STORAGE_BUCKET</key>
 	<string>peaca-2fe0b.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:703826515030:ios:7e64cadb37263360</string>
+	<string>1:703826515030:ios:8e76de8394132cf5</string>
 	<key>DATABASE_URL</key>
 	<string>https://peaca-2fe0b.firebaseio.com</string>
 </dict>

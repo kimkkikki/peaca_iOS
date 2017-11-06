@@ -22,9 +22,44 @@ class MyListTableViewCell: SwipeTableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height/2
+        self.profileImageView.clipsToBounds = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+    }
+    
+    func setParty(_ party:Party) {
+        self.locationImageView.image = nil
+        self.profileImageView.image = nil
+        
+        self.titleLabel.text = party.title
+        
+        if party.writer.nickname != nil {
+            self.nicknameLabel.text = party.writer.nickname
+        } else {
+            self.nicknameLabel.text = party.writer.name
+        }
+        
+        self.profileImageView.sd_setImage(with: URL(string:party.writer.pictureUrl), completed: nil)
+        
+        if party.destinationImage == nil {
+            Common.getPhotoWithGooglePlaceID(party.destinationId) { (photo) in
+                self.locationImageView.image = photo
+                party.destinationImage = photo
+            }
+        } else {
+            self.locationImageView.image = party.destinationImage
+        }
+        
+        self.dateLabel.text = party.date.string(format: .custom("yyyy.MM.dd (E) hh:mma"))
+        
+        // TODO: Status check 구현
+        self.statusLabel.backgroundColor = UIColor(patternImage: UIImage(named:"ing_label_background")!)
+        self.statusLabel.backgroundColor = UIColor(patternImage: UIImage(named:"close_label_background")!)
+        
+        // TODO: member count 필요함
+        self.personsLabel.text = "\(party.persons)명"
     }
 }

@@ -13,7 +13,6 @@ import FBSDKLoginKit
 import Firebase
 import Alamofire
 import SwiftyUserDefaults
-import KRProgressHUD
 
 class IntroViewController: UIViewController {
     
@@ -32,6 +31,25 @@ class IntroViewController: UIViewController {
         let header: HTTPHeaders = ["id": Defaults[.id]!, "token": Defaults[.token]!]
         Defaults[.header] = header
         
+        if let serverPushToken = json["push_token"] as? String {
+            if serverPushToken != Messaging.messaging().fcmToken, let token = Messaging.messaging().fcmToken {
+                var params = json
+                params["push_token"] = token
+                NetworkManager.postUser(params: params, completion: { (json) in
+//                    self.handleResponse(json)
+                })
+            }
+            
+        } else {
+            if let token = Messaging.messaging().fcmToken {
+                var params = json
+                params["push_token"] = token
+                NetworkManager.postUser(params: params, completion: { (json) in
+//                    self.handleResponse(json)
+                })
+            }
+        }
+        
         self.goMain()
     }
     
@@ -43,7 +61,6 @@ class IntroViewController: UIViewController {
             })
             
         } else {
-            KRProgressHUD.show()
             FBSDKGraphRequest.init(graphPath: "me", parameters: ["fields":"email,name,birthday,gender, picture.type(large)"]).start(completionHandler: { (connection:FBSDKGraphRequestConnection?, result:Any?, error:Error?) in
                 if (error == nil) {
                     if let result1 = result as? Dictionary<String, AnyObject> {
@@ -60,15 +77,17 @@ class IntroViewController: UIViewController {
                             }
                         }
                         
+                        if let pushToken = Messaging.messaging().fcmToken {
+                            params["push_token"] = pushToken
+                        }
+                        
                         print("params : \(params)")
                         
-                        KRProgressHUD.dismiss()
                         NetworkManager.postUser(params: params, completion: { (json) in
                             self.handleResponse(json)
                         })
                     }
                 } else {
-                    KRProgressHUD.dismiss()
                     print("Facebook Graph Get Error")
                 }
             })
@@ -104,7 +123,6 @@ class IntroViewController: UIViewController {
     }
     
     @IBAction func loginButtonClick() {
-        KRProgressHUD.show()
         let loginManager = LoginManager()
         loginManager.logIn(readPermissions:[.publicProfile, .email, .userBirthday], viewController: self) { loginResult in
             switch loginResult {
@@ -134,8 +152,6 @@ class IntroViewController: UIViewController {
                     })
                 }
             }
-            
-            KRProgressHUD.dismiss()
         }
     }
 

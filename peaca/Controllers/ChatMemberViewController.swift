@@ -85,10 +85,18 @@ extension ChatMemberViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "chat_member_cell") as! ChatMemberTableViewCell
         cell.delegate = self
         if indexPath.section == 0 {
-            cell.profileName.text = masterMember!.userId
+            if masterMember!.user.nickname != nil {
+                cell.profileName.text = masterMember!.user.nickname
+            } else {
+                cell.profileName.text = masterMember!.user.name
+            }
             cell.profileImage.sd_setImage(with: URL(string:masterMember!.userPictureUrl), completed: nil)
         } else {
-            cell.profileName.text = members[indexPath.row].userId
+            if members[indexPath.row].user.nickname != nil {
+                cell.profileName.text = members[indexPath.row].user.nickname
+            } else {
+                cell.profileName.text = members[indexPath.row].user.name
+            }
             cell.profileImage.sd_setImage(with: URL(string:members[indexPath.row].userPictureUrl), completed: nil)
         }
         

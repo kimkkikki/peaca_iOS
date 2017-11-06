@@ -36,7 +36,7 @@ class WriteFormViewController: FormViewController {
         
         ref = Database.database().reference()
         
-        form +++ Section("기본정보")
+        form +++ Section()
             <<< TextRow("title"){ row in
                 row.placeholder = "모임 제목을 입력하세요"
                 row.add(rule: RuleRequired())
@@ -84,7 +84,6 @@ class WriteFormViewController: FormViewController {
                 $0.options = ["상관없음", "남자", "여자"]
             }
             
-            +++ Section("모임 장소")
             <<< ButtonRow("destination_button") {
                 $0.title = "목적지 선택"
                 $0.cellStyle = .value1
@@ -129,12 +128,12 @@ class WriteFormViewController: FormViewController {
                 $0.value = false
                 $0.cell.height = { 150 }
             }
-            
-            +++ Section("모임 설명")
             <<< TextAreaRow("contents") {
-                $0.placeholder = "모임에 대해서 설명해 주세요"
+                $0.placeholder = "내용을 입력하세요"
                 $0.textAreaHeight = .dynamic(initialTextViewHeight: 110)
             }
+        
+        self.tableView.backgroundColor = UIColor.white
     }
     
     @IBAction func close() {

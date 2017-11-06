@@ -10,6 +10,9 @@ import UIKit
 import SwiftyUserDefaults
 
 class MainViewController: UIViewController {
+    var page = 1
+    var isLoading = false
+    var hasNext = true
     
     @IBOutlet weak var mainTableView:UITableView!
     var partyList:[Party] = []
@@ -23,30 +26,39 @@ class MainViewController: UIViewController {
     }()
     
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
-        getDataFromServer {
+        self.page = 1
+        self.hasNext = true
+        getDataFromServer(isRefresh: true) {
             refreshControl.endRefreshing()
         }
     }
     
-    func getDataFromServer(_ completion: @escaping () -> ()) {
-        NetworkManager.getParty { (jsonArray) in
-            self.partyList.removeAll()
-            for dict in jsonArray {
-                let party = Party(dict: dict as! [String:Any])
-                self.partyList.append(party)
+    func getDataFromServer(isRefresh:Bool, completion: (() -> ())?) {
+        NetworkManager.getParty(page: self.page) { (jsonArray) in
+            if isRefresh {
+                self.partyList.removeAll()
             }
-            self.mainTableView.reloadData()
-            // TODO:Stop HUD
             
-            completion()
-            print(self.partyList)
+            self.page = self.page + 1
+            
+            if jsonArray.count == 0 {
+                self.hasNext = false
+            } else {
+                for dict in jsonArray {
+                    let party = Party(dict: dict as! [String:Any])
+                    self.partyList.append(party)
+                }
+                self.mainTableView.reloadData()
+            }
+            
+            completion?()
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.mainTableView.addSubview(self.refreshControl)
-        getDataFromServer{}
+        getDataFromServer(isRefresh: false, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -61,6 +73,10 @@ class MainViewController: UIViewController {
         } else if let controller = segue.destination as? MenuViewController {
             controller.delegate = self
         }
+    }
+    
+    @IBAction func logoClick() {
+        self.mainTableView.setContentOffset(CGPoint.zero, animated: true)
     }
 }
 
@@ -80,6 +96,19 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(partyList[indexPath.row])
         self.performSegue(withIdentifier: "go_detail", sender: partyList[indexPath.row])
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        
+        if !self.isLoading && self.hasNext && offsetY > contentHeight - scrollView.frame.size.height {
+            print("loadmore")
+            self.isLoading = true
+            getDataFromServer(isRefresh: false, completion: {
+                self.isLoading = false
+            })
+        }
     }
 }
 

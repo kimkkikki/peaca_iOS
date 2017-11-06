@@ -13,6 +13,7 @@ import Firebase
 import Alamofire
 import GoogleMaps
 import GooglePlaces
+import CDAlertView
 
 enum PartyMemberStatus {
     case Member
@@ -62,6 +63,9 @@ class DetailViewController: UIViewController {
             self.nicknameLabel.text = party.writer.name
         }
         
+        self.profileImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileClick)))
+        self.nicknameLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileClick)))
+        
         // Title
         self.titleLabel.text = party.title
         
@@ -76,7 +80,13 @@ class DetailViewController: UIViewController {
         marker.map = self.mapView
         
         self.locationImage.image = self.party.destinationImage
-        self.locationNameLabel.text = self.party.destination?.name
+        if let locationName = self.party.destination?.name {
+            self.locationNameLabel.text = locationName
+        } else {
+            self.locationNameLabel.text = self.party.destinationName
+        }
+        
+        self.personsLabel.text = "\(party.count)/\(party.persons)"
         
         NetworkManager.getPartyMembers(partyId: party.id) { (jsonArray) in
             for dict in jsonArray {
@@ -104,7 +114,7 @@ class DetailViewController: UIViewController {
     func setMyStatus() {
         let myId = Defaults[.id]
         for member in partyMembers {
-            if member.userId == myId {
+            if member.user.id == myId {
                 if member.status == "master" {
                     myStatus = PartyMemberStatus.Master
                 } else if member.status == "member" {
@@ -151,6 +161,7 @@ class DetailViewController: UIViewController {
             controller.chatroom = String(party.id)
             
             controller.partyMembers = self.partyMembers
+            controller.party = self.party
             print("prepare chatview")
         }
     }
@@ -160,14 +171,20 @@ class DetailViewController: UIViewController {
         case PartyMemberStatus.NotMember, PartyMemberStatus.Exit:
             NetworkManager.postPartyMember(partyId: party.id, completion: { (json) in
                 print("join party member success : \(json)")
-                
-                let imMember = PartyMember(json)
-                self.partyMembers.append(imMember)
-                
-                self.setMyStatus()
-                self.setMemberImages()
-                
-                self.performSegue(withIdentifier: "go_chat", sender: nil)
+                if (json["success"] as? Bool)! {
+                    let imMember = PartyMember(json)
+                    self.partyMembers.append(imMember)
+                    
+                    self.setMyStatus()
+                    self.setMemberImages()
+                    
+                    self.performSegue(withIdentifier: "go_chat", sender: nil)
+                } else {
+                    let alert = CDAlertView(title: "채팅방 인원이 꽉찼습니다", message: "채팅방 인원이 꽉찼습니다", type: .custom(image: UIImage(named:"peacaSymbol")!))
+                    let doneAction = CDAlertViewAction(title: "OK")
+                    alert.add(action: doneAction)
+                    alert.show()
+                }
             })
             break
         case PartyMemberStatus.Master, PartyMemberStatus.Member, PartyMemberStatus.Ban:
@@ -178,5 +195,10 @@ class DetailViewController: UIViewController {
     
     @IBAction func backButtonClick() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func profileClick(sender:AnyObject) {
+        print("go profile")
+        self.performSegue(withIdentifier: "go_profile", sender: nil)
     }
 }
