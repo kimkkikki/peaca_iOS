@@ -42,10 +42,13 @@ class PeacaMainTableViewCell: UITableViewCell {
         self.profileImage.sd_setImage(with: URL(string:party.writer.pictureUrl), completed: nil)
         
         if party.destinationImage == nil {
-            Common.getPhotoWithGooglePlaceID(party.destinationId) { (photo) in
+            Common.getPhotoWithGooglePlaceID(party.destinationId, completion: { (photo) in
                 self.locationImage.image = photo
                 party.destinationImage = photo
-            }
+            }, failure: {
+                self.locationImage.image = UIImage(named: "defaultLocationImage")
+                party.destinationImage = UIImage(named: "defaultLocationImage")
+            })
         } else {
             self.locationImage.image = party.destinationImage
         }

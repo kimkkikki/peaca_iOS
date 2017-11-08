@@ -17,7 +17,7 @@ enum APP_TARGET {
     case PRODUCTION
 }
 
-let APP_STATUS = APP_TARGET.PRODUCTION
+let APP_STATUS = APP_TARGET.LOCAL
 
 class NetworkManager {
     

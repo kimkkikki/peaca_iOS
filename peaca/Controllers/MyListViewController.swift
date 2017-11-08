@@ -8,6 +8,7 @@
 
 import UIKit
 import SwipeCellKit
+import CDAlertView
 
 class MyListViewController: UIViewController {
     
@@ -37,6 +38,12 @@ class MyListViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let controller = segue.destination as? DetailViewController {
+            controller.party = sender as! Party
+        }
+    }
 }
 
 extension MyListViewController: UITableViewDelegate, UITableViewDataSource {
@@ -55,9 +62,9 @@ extension MyListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(myList[indexPath.row])
+        print(myList[indexPath.row].party!)
         //TODO: Go to Detail
-//        self.performSegue(withIdentifier: "go_detail", sender: partyList[indexPath.row])
+        self.performSegue(withIdentifier: "go_detail", sender: myList[indexPath.row].party!)
     }
 }
 
@@ -68,6 +75,12 @@ extension MyListViewController: SwipeTableViewCellDelegate {
         let deleteAction = SwipeAction(style: .destructive, title: nil) { action, indexPath in
             // handle action by updating model with deletion
             print("delete!")
+            let alert = CDAlertView(title: "모임 그만할라구?", message: "채팅방에서도 나가진당", type: .custom(image: UIImage(named:"peacaSymbol")!))
+            let doneAction = CDAlertViewAction(title: "OK")
+            alert.add(action: doneAction)
+            let cancelAction = CDAlertViewAction(title: "Cancel")
+            alert.add(action: cancelAction)
+            alert.show()
         }
         
         // customize the action appearance

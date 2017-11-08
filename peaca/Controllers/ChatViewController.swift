@@ -65,10 +65,10 @@ class ChatViewController: JSQMessagesViewController {
     private func setupIncomingBubble(tail: Bool) -> JSQMessagesBubbleImage {
         if tail {
             let bubbleImageFactory = JSQMessagesBubbleImageFactory()
-            return bubbleImageFactory!.incomingMessagesBubbleImage(with: UIColor.lightGray)
+            return bubbleImageFactory!.incomingMessagesBubbleImage(with: UIColor.init(red: 238.0 / 255.0, green: 238.0 / 255.0, blue: 238.0 / 255.0, alpha: 1.0))
         } else {
             let tailessBubble = JSQMessagesBubbleImageFactory.init(bubble: UIImage.jsq_bubbleCompactTailless(), capInsets: UIEdgeInsets.zero)
-            return tailessBubble!.incomingMessagesBubbleImage(with: UIColor.lightGray)
+            return tailessBubble!.incomingMessagesBubbleImage(with: UIColor.init(red: 238.0 / 255.0, green: 238.0 / 255.0, blue: 238.0 / 255.0, alpha: 1.0))
         }
     }
     
@@ -181,29 +181,42 @@ class ChatViewController: JSQMessagesViewController {
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAt indexPath: IndexPath!) -> JSQMessageBubbleImageDataSource! {
+        
+        var isOver:Bool!
+        
         switch comparePrevMessage(indexPath: indexPath) {
-        case .notOverMinDefferentId:
-            return incomingTaillessBubble
         case .notOverMinEqualId:
-            return outgoingTaillessBubble
-        case .overMinDefferentId, .firstMessageOfAnother:
-            return incomingTailBubble
-        case .overMinEqualId, .firstMessageOfMe:
-            return outgoingTailBubble
+            isOver = false
+        case .notOverMinDefferentId, .overMinDefferentId, .firstMessageOfAnother, .overMinEqualId, .firstMessageOfMe:
+            isOver = true
+        }
+        
+        if messages[indexPath.item].senderId == senderId {
+            if isOver {
+                return outgoingTailBubble
+            } else {
+                return outgoingTaillessBubble
+            }
+        } else {
+            if isOver {
+                return incomingTailBubble
+            } else {
+                return incomingTaillessBubble
+            }
         }
     }
     
     // Avatar Image
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
         switch comparePrevMessage(indexPath: indexPath) {
-        case .firstMessageOfAnother, .firstMessageOfMe, .overMinDefferentId, .overMinEqualId:
+        case .firstMessageOfAnother, .firstMessageOfMe, .overMinDefferentId, .overMinEqualId, .notOverMinDefferentId:
             let message = messages[indexPath.item]
             guard let image = profileImages[message.senderId] else {
                 return JSQMessagesAvatarImageFactory.avatarImage(with: UIImage(named: "userAvatar"), diameter: UInt(kJSQMessagesCollectionViewAvatarSizeDefault))
             }
             let avatarImage = JSQMessagesAvatarImageFactory.avatarImage(with: image, diameter: UInt(kJSQMessagesCollectionViewAvatarSizeDefault))
             return avatarImage
-        case .notOverMinDefferentId, .notOverMinEqualId:
+        case .notOverMinEqualId:
             return nil
         }
     }
@@ -290,8 +303,14 @@ class ChatViewController: JSQMessagesViewController {
         let style = Style.default {
             $0.font = FontAttribute("NotoSansCJKkr-Regular", size: 11.0)
             $0.color = UIColor.black
-            $0.align = .right
         }
+        
+        if message.senderId == senderId {
+            style.align = .right
+        } else {
+            style.align = .left
+        }
+        
         let attributedString = date.set(style: style)
         
         return attributedString

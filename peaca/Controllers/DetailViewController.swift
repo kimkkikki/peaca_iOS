@@ -49,7 +49,7 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         
         // Created
-        self.createLabel.text = "작성일 \(party.created.string(format: .custom("yyyy.MM.dd")))"
+        self.createLabel.text = "작성일 \(party.created.string(format: .custom("yyyy.MM.dd hh:mma")))"
         
         // Writer Profile 이미지
         profileImage.sd_setImage(with: URL(string:party.writer.pictureUrl), completed: nil)

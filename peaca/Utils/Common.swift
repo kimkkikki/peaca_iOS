@@ -10,11 +10,12 @@ import Foundation
 import GooglePlaces
 
 class Common {
-    class func getPhotoWithGooglePlaceID(_ id:String, completion:@escaping (UIImage) -> ()) {
+    class func getPhotoWithGooglePlaceID(_ id:String, completion:@escaping (UIImage) -> (), failure:@escaping () -> ()) {
         GMSPlacesClient.shared().lookUpPhotos(forPlaceID: id) { (photos, error) -> Void in
             if let error = error {
                 // TODO: handle the error.
                 print("getPhotoWithGooglePlaceID, lookUpPhotos Error: \(error.localizedDescription)")
+                failure()
             } else {
                 if let firstPhoto = photos?.results.first {
                     GMSPlacesClient.shared().loadPlacePhoto(firstPhoto, callback: {
@@ -22,11 +23,14 @@ class Common {
                         if let error = error {
                             // TODO: handle the error.
                             print("getPhotoWithGooglePlaceID, loadPlacePhoto Error: \(error.localizedDescription)")
+                            failure()
                         } else {
                             completion(photo!)
 //                            self.locationImage.image = photo;
                         }
                     })
+                } else {
+                    failure()
                 }
             }
         }
