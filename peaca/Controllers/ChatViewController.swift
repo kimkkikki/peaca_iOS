@@ -38,6 +38,10 @@ class ChatViewController: JSQMessagesViewController {
             if let controller = sideMenuNavigationController.viewControllers.first as? ChatMemberViewController {
                 controller.partyMembers = self.partyMembers
             }
+        } else if let controller = segue.destination as? ProfileViewController {
+            if let data = sender as? String {
+                controller.profileId = data
+            }
         }
     }
     
@@ -292,7 +296,10 @@ class ChatViewController: JSQMessagesViewController {
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, didTapAvatarImageView avatarImageView: UIImageView!, at indexPath: IndexPath!) {
         //TODO: 프로필 데이터 전달 필요
-        self.performSegue(withIdentifier: "go_profile", sender: nil)
+        
+        let message = messages[indexPath.item]
+        
+        self.performSegue(withIdentifier: "go_profile", sender: message.senderId)
     }
     
     // 풍선 위

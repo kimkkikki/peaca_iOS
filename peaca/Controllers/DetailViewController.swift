@@ -66,6 +66,8 @@ class DetailViewController: UIViewController {
         self.profileImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileClick)))
         self.nicknameLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileClick)))
         
+        self.mapView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(mapClick)))
+        
         // Title
         self.titleLabel.text = party.title
         
@@ -77,6 +79,7 @@ class DetailViewController: UIViewController {
         
         let marker = GMSMarker(position: party.destinationPoint.coordinate)
         marker.title = party.destinationName
+        marker.icon = UIImage(named: "location_pin_1")
         marker.map = self.mapView
         
         self.locationImage.image = self.party.destinationImage
@@ -163,6 +166,9 @@ class DetailViewController: UIViewController {
             controller.partyMembers = self.partyMembers
             controller.party = self.party
             print("prepare chatview")
+            
+        } else if let controller = segue.destination as? ProfileViewController {
+            controller.profile = sender as? Profile
         }
     }
     
@@ -198,7 +204,14 @@ class DetailViewController: UIViewController {
     }
     
     @objc func profileClick(sender:AnyObject) {
-        print("go profile")
-        self.performSegue(withIdentifier: "go_profile", sender: nil)
+        self.performSegue(withIdentifier: "go_profile", sender: self.party.writer)
+    }
+    
+    @objc func mapClick(sender:AnyObject) {
+        if (UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!)) {
+            UIApplication.shared.openURL(URL(string:"comgooglemaps://?center=\(self.party.destinationPoint.coordinate.latitude),\(self.party.destinationPoint.coordinate.longitude)&zoom=14")!)
+        } else {
+            print("Can't use comgooglemaps://");
+        }
     }
 }

@@ -8,14 +8,21 @@
 
 import UIKit
 import SwiftyUserDefaults
+import MapKit
 
 class MainViewController: UIViewController {
     var page = 1
     var isLoading = false
     var hasNext = true
     
+    var filter:Filter = Filter()
+    
     @IBOutlet weak var mainTableView:UITableView!
+    @IBOutlet weak var filterBarButton:UIBarButtonItem!
+    
     var partyList:[Party] = []
+    
+    var myLocation:CLLocationCoordinate2D?
     
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -26,15 +33,21 @@ class MainViewController: UIViewController {
     }()
     
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
-        self.page = 1
-        self.hasNext = true
-        getDataFromServer(isRefresh: true) {
+        getDataFromServer(isRefresh: true, myLocation: self.myLocation) {
             refreshControl.endRefreshing()
         }
     }
     
-    func getDataFromServer(isRefresh:Bool, completion: (() -> ())?) {
-        NetworkManager.getParty(page: self.page) { (jsonArray) in
+    func getDataFromServer(isRefresh:Bool, myLocation:CLLocationCoordinate2D?, completion: (() -> ())?) {
+        if isRefresh {
+            self.page = 1
+            self.hasNext = true
+        }
+        
+        self.isLoading = true
+        NetworkManager.getParty(page: self.page, location: myLocation, filter: self.filter) { (jsonArray) in
+            self.isLoading = false
+            
             if isRefresh {
                 self.partyList.removeAll()
             }
@@ -58,7 +71,13 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.mainTableView.addSubview(self.refreshControl)
-        getDataFromServer(isRefresh: false, completion: nil)
+        
+        getDataFromServer(isRefresh: false, myLocation: self.myLocation, completion: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//        self.locationManager.startUpdatingLocation()
     }
 
     override func didReceiveMemoryWarning() {
@@ -70,6 +89,7 @@ class MainViewController: UIViewController {
             controller.party = sender as! Party
         } else if let controller = segue.destination as? FilterViewController {
             controller.delegate = self
+            controller.filter = self.filter
         } else if let controller = segue.destination as? MenuViewController {
             controller.delegate = self
         }
@@ -103,9 +123,10 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         let contentHeight = scrollView.contentSize.height
         
         if !self.isLoading && self.hasNext && offsetY > contentHeight - scrollView.frame.size.height {
+            // TODO:리프레쉬할때 해야댐
             print("loadmore")
             self.isLoading = true
-            getDataFromServer(isRefresh: false, completion: {
+            getDataFromServer(isRefresh: false, myLocation: self.myLocation, completion: {
                 self.isLoading = false
             })
         }
@@ -114,7 +135,14 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension MainViewController: FilterViewControllerDelegate {
     func didSelectFilter(_ filter: Filter) {
-        print("filter delegate call")
+        print("filter delegate call : \(self.filter)")
+        
+        if filter.getFilterCount() > 0 {
+            filterBarButton.setBadge(text: "\(filter.getFilterCount())")
+        } else {
+            filterBarButton.setBadge(text: "")
+        }
+        getDataFromServer(isRefresh: true, myLocation: self.myLocation, completion: nil)
     }
 }
 

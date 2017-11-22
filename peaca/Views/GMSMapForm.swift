@@ -30,6 +30,7 @@ public class GMSMapFormCell: Cell<Bool>, CellType {
         let position = CLLocationCoordinate2D(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
         let marker = GMSMarker(position: position)
         marker.title = place.name
+        marker.icon = UIImage(named: "location_pin_1")
         marker.map = mapView
         
         row.value = true

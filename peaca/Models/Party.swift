@@ -9,6 +9,7 @@
 import Foundation
 import GooglePlaces
 import SwiftDate
+import MapKit
 
 class Party {
     var id:Int
@@ -17,7 +18,6 @@ class Party {
     var writer:Profile
     var persons:Int
     var count:Int
-    var gender:String
     var date:Date
     var destinationId:String
     var destinationName:String
@@ -31,6 +31,7 @@ class Party {
     var destinationImage:UIImage?
     var destination:GMSPlace?
     var status:String
+    var distance:Double
     
     init(dict:[String:Any]) {
         self.id = dict["id"] as! Int
@@ -50,7 +51,6 @@ class Party {
             self.status = "I"
         }
         
-        self.gender = dict["gender"] as! String
         let dateInRegion = DateInRegion(string: dict["date"] as! String, format: .iso8601(options: [.withInternetDateTime]))!
         self.date = dateInRegion.absoluteDate
         self.destinationId = dict["destination_id"] as! String
@@ -67,11 +67,17 @@ class Party {
         
         let userDict = dict["writer"] as! [String:Any]
         self.writer = Profile(dict:userDict)
+        
+        if let dDistance = dict["distance"] as? Double {
+            self.distance = dDistance
+        } else {
+            self.distance = 0
+        }
     }
 }
 
 extension Party: CustomStringConvertible {
     public var description: String {
-        return "{'id':'\(self.id)', 'title':'\(self.title)', 'contents':'\(self.contents)', 'persons': \(self.persons), 'count': \(self.count), 'gender':'\(self.gender)', 'date':'\(self.date)', 'created':'\(self.created)', 'writer':\(self.writer)}"
+        return "{'id':'\(self.id)', 'title':'\(self.title)', 'contents':'\(self.contents)', 'persons': \(self.persons), 'count': \(self.count), 'date':'\(self.date)', 'created':'\(self.created)', 'writer':\(self.writer)}"
     }
 }

@@ -13,7 +13,6 @@ class Profile {
     var id:String
     var name:String
     var nickname:String?
-    var gender:String
     var pictureUrl:String
     var created:DateInRegion
     
@@ -21,7 +20,6 @@ class Profile {
         self.id = dict["id"] as! String
         self.name = dict["name"] as! String
         self.pictureUrl = dict["picture_url"] as! String
-        self.gender = dict["gender"] as! String
         self.created = DateInRegion(string: dict["created"] as! String, format: .iso8601(options: [.withInternetDateTime]))!.toRegion(Region.Local())
         
         self.nickname = dict["nickname"] as? String
@@ -30,6 +28,6 @@ class Profile {
 
 extension Profile: CustomStringConvertible {
     public var description: String {
-        return "{'id':'\(self.id)', 'name':'\(self.name)', 'nickname':'\(String(describing: self.nickname))', 'pictureUrl':'\(self.pictureUrl)', 'gender':'\(gender)', 'created':'\(self.created)'}"
+        return "{'id':'\(self.id)', 'name':'\(self.name)', 'nickname':'\(String(describing: self.nickname))', 'pictureUrl':'\(self.pictureUrl)', 'created':'\(self.created)'}"
     }
 }

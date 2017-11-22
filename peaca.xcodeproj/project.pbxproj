@@ -12,6 +12,8 @@
 		54405B181F9DC33A0055C4C5 /* MyListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54405B171F9DC33A0055C4C5 /* MyListTableViewCell.swift */; };
 		54405B1A1F9DCAF60055C4C5 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54405B191F9DCAF60055C4C5 /* SettingViewController.swift */; };
 		54405B1E1F9F35F10055C4C5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54405B1D1F9F35F10055C4C5 /* GoogleService-Info.plist */; };
+		5443FAAD1FC54F6E00178C5E /* UIBarButtonItem+Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5443FAAC1FC54F6E00178C5E /* UIBarButtonItem+Badge.swift */; };
+		5443FAAF1FC54F8C00178C5E /* DefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5443FAAE1FC54F8C00178C5E /* DefaultsKeys.swift */; };
 		5448F85C1F7223EE00ABC8FE /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5448F85B1F7223EE00ABC8FE /* Profile.swift */; };
 		544F144D1F9D6B49007080DA /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F144C1F9D6B49007080DA /* NetworkManager.swift */; };
 		544F144F1F9DB431007080DA /* MyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F144E1F9DB431007080DA /* MyListViewController.swift */; };
@@ -49,7 +51,6 @@
 		54FEA1E01F5F9370009752AC /* WriteFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEA1DF1F5F9370009752AC /* WriteFormViewController.swift */; };
 		54FEA1E31F5FC8F2009752AC /* GMSMapForm.xib in Resources */ = {isa = PBXBuildFile; fileRef = 54FEA1E21F5FC8F2009752AC /* GMSMapForm.xib */; };
 		54FEA1E51F5FD1FE009752AC /* GMSMapForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEA1E41F5FD1FE009752AC /* GMSMapForm.swift */; };
-		54FEA1E71F66779B009752AC /* DefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEA1E61F66779B009752AC /* DefaultsKeys.swift */; };
 		5A6734572304979F0CD044D7 /* Pods_peacaUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E1298CA534CAF507DFB0D59 /* Pods_peacaUITests.framework */; };
 		6640A99A55A9B016604AD0A8 /* Pods_peaca.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAF895CEBC197C13FF61C11A /* Pods_peaca.framework */; };
 		920FC6F1CCFE90DD70EC99ED /* Pods_peacaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985DE901F2366218B2220DD5 /* Pods_peacaTests.framework */; };
@@ -85,6 +86,8 @@
 		54405B171F9DC33A0055C4C5 /* MyListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListTableViewCell.swift; sourceTree = "<group>"; };
 		54405B191F9DCAF60055C4C5 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		54405B1D1F9F35F10055C4C5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5443FAAC1FC54F6E00178C5E /* UIBarButtonItem+Badge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Badge.swift"; sourceTree = "<group>"; };
+		5443FAAE1FC54F8C00178C5E /* DefaultsKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultsKeys.swift; sourceTree = "<group>"; };
 		5448F85B1F7223EE00ABC8FE /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		544F144C1F9D6B49007080DA /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		544F144E1F9DB431007080DA /* MyListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListViewController.swift; sourceTree = "<group>"; };
@@ -118,7 +121,7 @@
 		5498E10A1F8F634D00950DC0 /* PartyMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyMember.swift; sourceTree = "<group>"; };
 		5498E10C1F905B0900950DC0 /* ChatMemberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMemberViewController.swift; sourceTree = "<group>"; };
 		5498E10E1F943F8E00950DC0 /* PeacaMainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeacaMainTableViewCell.swift; sourceTree = "<group>"; };
-		5498E1121F94518900950DC0 /* UIColor+Peaca.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIColor+Peaca.swift"; path = "peaca/Views/UIColor+Peaca.swift"; sourceTree = SOURCE_ROOT; };
+		5498E1121F94518900950DC0 /* UIColor+Peaca.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIColor+Peaca.swift"; path = "peaca/Extensions/UIColor+Peaca.swift"; sourceTree = SOURCE_ROOT; };
 		5498E1141F9499F600950DC0 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		54A0FD4A1F6A7A1E00654329 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		54A0FD4E1F6F4B1100654329 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
@@ -131,7 +134,6 @@
 		54FEA1DF1F5F9370009752AC /* WriteFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WriteFormViewController.swift; sourceTree = "<group>"; };
 		54FEA1E21F5FC8F2009752AC /* GMSMapForm.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GMSMapForm.xib; sourceTree = "<group>"; };
 		54FEA1E41F5FD1FE009752AC /* GMSMapForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GMSMapForm.swift; sourceTree = "<group>"; };
-		54FEA1E61F66779B009752AC /* DefaultsKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultsKeys.swift; path = peaca/Views/DefaultsKeys.swift; sourceTree = SOURCE_ROOT; };
 		5554A0BBDD7A3311E62DB757 /* Pods-peaca.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-peaca.debug.xcconfig"; path = "Pods/Target Support Files/Pods-peaca/Pods-peaca.debug.xcconfig"; sourceTree = "<group>"; };
 		58C330765D0F6FF188790240 /* Pods-peacaUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-peacaUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-peacaUITests/Pods-peacaUITests.release.xcconfig"; sourceTree = "<group>"; };
 		5C9CBF46C3A925D8774D2DA2 /* Pods-peaca.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-peaca.release.xcconfig"; path = "Pods/Target Support Files/Pods-peaca/Pods-peaca.release.xcconfig"; sourceTree = "<group>"; };
@@ -171,16 +173,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		541D9C0B1F50066A0040A96C /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				54FEA1E61F66779B009752AC /* DefaultsKeys.swift */,
-				5498E1121F94518900950DC0 /* UIColor+Peaca.swift */,
-			);
-			name = Extensions;
-			path = "../../../../Downloads/Pinterest-final/Pinterest";
-			sourceTree = "<group>";
-		};
 		541D9C171F53D71B0040A96C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -246,6 +238,16 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		5443FAAB1FC54F6600178C5E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5498E1121F94518900950DC0 /* UIColor+Peaca.swift */,
+				5443FAAE1FC54F8C00178C5E /* DefaultsKeys.swift */,
+				5443FAAC1FC54F6E00178C5E /* UIBarButtonItem+Badge.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		5473A2F41F45152E00CCA3B7 = {
 			isa = PBXGroup;
 			children = (
@@ -272,7 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				541D9C171F53D71B0040A96C /* Controllers */,
-				541D9C0B1F50066A0040A96C /* Extensions */,
+				5443FAAB1FC54F6600178C5E /* Extensions */,
 				541D9C301F53D7FA0040A96C /* Layouts */,
 				541D9C321F53D7FA0040A96C /* Models */,
 				54E60AD01F9872D80011B057 /* Utils */,
@@ -749,9 +751,9 @@
 				5498E1131F94518900950DC0 /* UIColor+Peaca.swift in Sources */,
 				54E9AEBC1F5684F400914389 /* Party.swift in Sources */,
 				544F144D1F9D6B49007080DA /* NetworkManager.swift in Sources */,
-				54FEA1E71F66779B009752AC /* DefaultsKeys.swift in Sources */,
 				54A0FD4B1F6A7A1E00654329 /* DetailViewController.swift in Sources */,
 				545BAE8D1F974BAF00211E3C /* PeacaIndicator.swift in Sources */,
+				5443FAAF1FC54F8C00178C5E /* DefaultsKeys.swift in Sources */,
 				5473A3011F45152E00CCA3B7 /* AppDelegate.swift in Sources */,
 				54A0FD4F1F6F4B1100654329 /* FilterViewController.swift in Sources */,
 				54405B1A1F9DCAF60055C4C5 /* SettingViewController.swift in Sources */,
@@ -759,6 +761,7 @@
 				5448F85C1F7223EE00ABC8FE /* Profile.swift in Sources */,
 				54E60ACF1F9866B90011B057 /* ChatMemberTableViewCell.swift in Sources */,
 				5498E1101F943F8E00950DC0 /* PeacaMainTableViewCell.swift in Sources */,
+				5443FAAD1FC54F6E00178C5E /* UIBarButtonItem+Badge.swift in Sources */,
 				54E60AD21F9873020011B057 /* Common.swift in Sources */,
 				54FEA1E51F5FD1FE009752AC /* GMSMapForm.swift in Sources */,
 				5498E10B1F8F634D00950DC0 /* PartyMember.swift in Sources */,

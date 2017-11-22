@@ -52,12 +52,17 @@ class WriteFormViewController: FormViewController {
                 
                 $0.minimumDate = Date()
                 $0.minuteInterval = 5
+                
+                $0.cellSetup({ (cell, row) in
+                    cell.imageView?.image = UIImage(named: "dateIcon")
+                })
             }
             <<< StepperRow("persons"){
                 $0.cellSetup({ (cell, row) in
                     row.title = "모임 인원"
                     row.value = 2.0
                     cell.valueLabel?.text = "\(Int(row.value!))"
+                    cell.imageView?.image = UIImage(named: "personIcon")
                 })
                 $0.cellUpdate({ (cell, row) in
                     if(row.value != nil) {
@@ -78,13 +83,12 @@ class WriteFormViewController: FormViewController {
                     }
                 })
             }
-            <<< SegmentedRow<String>("gender") {
-                $0.title = "성별"
-                $0.value = "상관없음"
-                $0.options = ["상관없음", "남자", "여자"]
-            }
             
             <<< ButtonRow("destination_button") {
+                $0.cellSetup({ (cell, row) in
+                    cell.imageView?.image = UIImage(named: "mapIcon")
+                })
+                
                 $0.title = "목적지 선택"
                 $0.cellStyle = .value1
                 $0.updateCell()
@@ -109,6 +113,10 @@ class WriteFormViewController: FormViewController {
                 $0.value = true
             }
             <<< ButtonRow("source_button") {
+                $0.cellSetup({ (cell, row) in
+                    cell.imageView?.image = UIImage(named: "mapIcon")
+                })
+                
                 $0.hidden = "$is_different_source == true"
                 
                 $0.title = "집결지 선택"
@@ -229,15 +237,6 @@ class WriteFormViewController: FormViewController {
             if let source = self.sourcePlace {
                 params["source"] = GMSPlaceToDict(source)
             }
-        }
-        
-        let gender = valueDict["gender"] as! String
-        if gender == "상관없음" {
-            params["gender"] = "A"
-        } else if gender == "남자" {
-            params["gender"] = "M"
-        } else {
-            params["gender"] = "W"
         }
         
         let location = CLLocation(latitude: self.destinationPlace!.coordinate.latitude, longitude: self.destinationPlace!.coordinate.longitude)

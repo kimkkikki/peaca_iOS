@@ -13,19 +13,32 @@ import FBSDKLoginKit
 import Firebase
 import Alamofire
 import SwiftyUserDefaults
+import MapKit
 
 class IntroViewController: UIViewController {
     
     var firebaseUser: User!
     var isLogined = false
     
+    let locationManager = CLLocationManager()
+    var myLocation:CLLocationCoordinate2D?
+    
     func goMain() {
         self.performSegue(withIdentifier: "go_main", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let naviController = segue.destination as? UINavigationController {
+            if let controller = naviController.topViewController as? MainViewController {
+                controller.myLocation = self.myLocation
+            }
+        }
     }
     
     func handleResponse(_ json:[String:Any]) {
         Defaults[.id] = json["id"] as? String
         Defaults[.token] = json["token"] as? String
+        Defaults[.secret] = json["secret"] as? String
         Defaults[.name] = json["name"] as? String
         Defaults[.picture_url] = json["picture_url"] as? String
         let header: HTTPHeaders = ["id": Defaults[.id]!, "token": Defaults[.token]!]
@@ -35,18 +48,14 @@ class IntroViewController: UIViewController {
             if serverPushToken != Messaging.messaging().fcmToken, let token = Messaging.messaging().fcmToken {
                 var params = json
                 params["push_token"] = token
-                NetworkManager.postUser(params: params, completion: { (json) in
-//                    self.handleResponse(json)
-                })
+                NetworkManager.postUser(params: params, completion: nil)
             }
             
         } else {
             if let token = Messaging.messaging().fcmToken {
                 var params = json
                 params["push_token"] = token
-                NetworkManager.postUser(params: params, completion: { (json) in
-//                    self.handleResponse(json)
-                })
+                NetworkManager.postUser(params: params, completion: nil)
             }
         }
         
@@ -105,6 +114,13 @@ class IntroViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.locationManager.requestWhenInUseAuthorization()
+        if CLLocationManager.locationServicesEnabled() {
+            self.locationManager.delegate = self
+            self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
+            self.locationManager.startUpdatingLocation()
+        }
+        
         if Defaults[.id] != nil && Defaults[.token] != nil {
             isLogined = true
         } else {
@@ -157,6 +173,14 @@ class IntroViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+}
+
+extension IntroViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location = manager.location?.coordinate
+        self.myLocation = location
+        manager.stopUpdatingLocation()
     }
 }
 

@@ -359,6 +359,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="filterBarButton" destination="pna-Ab-e5l" id="nLd-MF-Yfn"/>
                         <outlet property="mainTableView" destination="raA-nS-rcu" id="2Iq-Kd-uNh"/>
                         <segue destination="r5a-4v-ttT" kind="show" identifier="go_write" id="sfi-xV-lmD"/>
                         <segue destination="fQJ-1e-MFt" kind="show" identifier="go_detail" id="31z-ZO-aBP"/>
@@ -700,17 +701,17 @@
                         <viewControllerLayoutGuide type="bottom" id="aBr-H6-wRq"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="tMq-ps-Zzu">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zl5-TC-JZ2">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qJi-4v-SlJ" userLabel="ContentView">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="616"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="596"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="작성일 2017.06.30 03:00AM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Byj-Zd-zHK">
-                                                <rect key="frame" x="234" y="12" width="160" height="23"/>
+                                                <rect key="frame" x="195" y="12" width="160" height="23"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="160" id="0Ig-Td-VkR"/>
                                                     <constraint firstAttribute="height" constant="23" id="9ND-fN-p58"/>
@@ -734,7 +735,7 @@
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="제주감귤녀" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bNS-o1-YBQ">
-                                                <rect key="frame" x="49" y="12" width="180" height="22.5"/>
+                                                <rect key="frame" x="49" y="12" width="141" height="22.5"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="23" id="Hzk-4o-tcR"/>
                                                 </constraints>
@@ -743,14 +744,14 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="personIcon" translatesAutoresizingMaskIntoConstraints="NO" id="xKb-Zt-phO">
-                                                <rect key="frame" x="343" y="79" width="21" height="21"/>
+                                                <rect key="frame" x="304" y="79" width="21" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="21" id="3b2-fR-Az2"/>
                                                     <constraint firstAttribute="height" constant="21" id="OdT-Yf-rZx"/>
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3/4" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FLj-Mo-lqd">
-                                                <rect key="frame" x="369" y="79" width="25" height="21"/>
+                                                <rect key="frame" x="330" y="79" width="25" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="DPh-cD-CSo"/>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="fZW-id-HJv"/>
@@ -760,7 +761,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="론다투어 하실분 구해요~" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vqq-2y-85E">
-                                                <rect key="frame" x="108" y="47" width="286" height="25"/>
+                                                <rect key="frame" x="108" y="47" width="247" height="25"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="25" id="CgM-m6-IBV"/>
                                                 </constraints>
@@ -769,7 +770,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="2017.08.09(일) 07:30AM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8EP-Nl-loa">
-                                                <rect key="frame" x="136" y="79" width="200" height="21"/>
+                                                <rect key="frame" x="136" y="79" width="161" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="efv-AZ-rvZ"/>
                                                 </constraints>
@@ -778,7 +779,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="1303, Monuevale, San Francisco, abca (100m 이내)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xgq-j0-0tM">
-                                                <rect key="frame" x="134" y="104" width="260" height="21"/>
+                                                <rect key="frame" x="134" y="104" width="221" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="jXf-IN-WJh"/>
                                                 </constraints>
@@ -787,10 +788,10 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" bouncesZoom="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iRi-0J-VZU">
-                                                <rect key="frame" x="20" y="324" width="374" height="150"/>
+                                                <rect key="frame" x="20" y="324" width="335" height="130"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="150" id="AgW-lC-xTb"/>
+                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="130" id="AgW-lC-xTb"/>
                                                 </constraints>
                                                 <string key="text">안녕하세요! 
 30대 직장인입니다.
@@ -801,14 +802,14 @@
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jZ8-ZO-Jbe">
-                                                <rect key="frame" x="0.0" y="482" width="414" height="5"/>
+                                                <rect key="frame" x="0.0" y="462" width="375" height="5"/>
                                                 <color key="backgroundColor" red="0.85490196080000003" green="0.87843137250000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="5" id="Chz-QR-GQH"/>
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ZT-Sb-QtU">
-                                                <rect key="frame" x="96" y="537" width="223" height="50"/>
+                                                <rect key="frame" x="76.5" y="517" width="223" height="50"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="223" id="kdo-CN-QsF"/>
                                                 </constraints>
@@ -832,8 +833,8 @@
                                                     <constraint firstAttribute="width" constant="21" id="t2U-wF-7CW"/>
                                                 </constraints>
                                             </imageView>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FXh-T5-8GC" customClass="GMSMapView">
-                                                <rect key="frame" x="20" y="139" width="374" height="170"/>
+                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FXh-T5-8GC" customClass="GMSMapView">
+                                                <rect key="frame" x="20" y="139" width="335" height="170"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="170" id="wmT-u5-dwA"/>
@@ -910,7 +911,6 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <size key="freeformSize" width="414" height="736"/>
                     <connections>
                         <outlet property="contentView" destination="qJi-4v-SlJ" id="LKG-3G-Wqv"/>
                         <outlet property="contentsTextView" destination="iRi-0J-VZU" id="qZe-76-Sxq"/>
@@ -964,7 +964,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DD0-RM-aRR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1987" y="37"/>
+            <point key="canvasLocation" x="1985" y="97"/>
         </scene>
         <!--프로필-->
         <scene sceneID="la6-U5-8i7">
@@ -977,7 +977,50 @@
                     <view key="view" contentMode="scaleToFill" id="k8V-qp-XKX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ype-ax-zxn">
+                                <rect key="frame" x="109" y="39" width="157" height="157"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="157" id="OeD-Bc-0OP"/>
+                                    <constraint firstAttribute="height" constant="157" id="gfv-Sd-Ajj"/>
+                                </constraints>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jJ3-J3-HKe">
+                                <rect key="frame" x="20" y="235" width="335" height="1"/>
+                                <color key="backgroundColor" red="0.70980392156862748" green="0.70980392156862748" blue="0.71372549019607845" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="30k-cg-vj1"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="byh-Qz-B7t">
+                                <rect key="frame" x="20" y="280" width="335" height="1"/>
+                                <color key="backgroundColor" red="0.70980392160000005" green="0.70980392160000005" blue="0.71372549019999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="A8I-gF-BVm"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="InV-eH-Y3f">
+                                <rect key="frame" x="4" y="236" width="367" height="45"/>
+                                <fontDescription key="fontDescription" name="NotoSansCJKkr-Bold" family="Noto Sans CJK KR" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="InV-eH-Y3f" firstAttribute="leading" secondItem="k8V-qp-XKX" secondAttribute="leading" constant="4" id="4Dg-ZK-IDJ"/>
+                            <constraint firstItem="ype-ax-zxn" firstAttribute="top" secondItem="UaY-AI-64g" secondAttribute="bottom" constant="39" id="5w9-Y5-O98"/>
+                            <constraint firstAttribute="trailing" secondItem="InV-eH-Y3f" secondAttribute="trailing" constant="4" id="CoM-2T-lMN"/>
+                            <constraint firstItem="InV-eH-Y3f" firstAttribute="top" secondItem="jJ3-J3-HKe" secondAttribute="bottom" id="CwC-me-R67"/>
+                            <constraint firstItem="jJ3-J3-HKe" firstAttribute="top" secondItem="ype-ax-zxn" secondAttribute="bottom" constant="39" id="T5O-Kl-LKX"/>
+                            <constraint firstAttribute="trailing" secondItem="byh-Qz-B7t" secondAttribute="trailing" constant="20" id="UPe-Vi-ic7"/>
+                            <constraint firstItem="byh-Qz-B7t" firstAttribute="top" secondItem="jJ3-J3-HKe" secondAttribute="bottom" constant="44" id="Uwz-QQ-6Us"/>
+                            <constraint firstItem="byh-Qz-B7t" firstAttribute="leading" secondItem="k8V-qp-XKX" secondAttribute="leading" constant="20" id="d9D-Qc-nEB"/>
+                            <constraint firstItem="ype-ax-zxn" firstAttribute="centerX" secondItem="k8V-qp-XKX" secondAttribute="centerX" id="mcx-ub-GKp"/>
+                            <constraint firstAttribute="trailing" secondItem="jJ3-J3-HKe" secondAttribute="trailing" constant="20" id="pjh-0w-kQ9"/>
+                            <constraint firstItem="byh-Qz-B7t" firstAttribute="bottom" secondItem="InV-eH-Y3f" secondAttribute="bottom" id="s0a-XV-VsZ"/>
+                            <constraint firstItem="jJ3-J3-HKe" firstAttribute="leading" secondItem="k8V-qp-XKX" secondAttribute="leading" constant="20" id="zRS-l5-h34"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="프로필" id="MbX-HY-9Sz">
                         <barButtonItem key="leftBarButtonItem" image="back_arrow" id="wWj-On-jjz">
@@ -987,10 +1030,14 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="nicknameLabel" destination="InV-eH-Y3f" id="DDe-ou-qV1"/>
+                        <outlet property="profileImage" destination="ype-ax-zxn" id="B8j-Ih-zrF"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xvs-fz-sVr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3014" y="36"/>
+            <point key="canvasLocation" x="3013.5999999999999" y="35.532233883058474"/>
         </scene>
         <!--검색&필터-->
         <scene sceneID="CBB-CZ-W8A">
@@ -1264,7 +1311,7 @@
         <image name="dateIcon" width="21" height="21"/>
         <image name="facebookLogin" width="334" height="50"/>
         <image name="femaleIcon" width="25" height="25"/>
-        <image name="filterIcon" width="23" height="20"/>
+        <image name="filterIcon" width="21" height="21"/>
         <image name="green_box" width="223" height="50"/>
         <image name="list" width="25" height="20"/>
         <image name="logo_intro" width="150" height="37"/>

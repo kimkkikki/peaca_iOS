@@ -18,7 +18,10 @@ protocol FilterViewControllerDelegate {
 class FilterViewController: FormViewController {
     
     var delegate:FilterViewControllerDelegate?
-    var filter:Filter = Filter()
+    var filter:Filter!
+    
+    var dateChange = false
+    var selectMyLocation:GMSPlace?
     
     @IBOutlet weak var clearButton:UIButton!
 
@@ -28,7 +31,11 @@ class FilterViewController: FormViewController {
         form +++ Section()
             <<< TextRow("search"){ row in
                 row.placeholder = "키워드(제목) 검색"
+                row.cellSetup({ cell, row in
+                    cell.imageView?.image = UIImage(named: "searchIcon")
+                })
             }
+            
             <<< LabelRow("city") {
                 $0.title = "여행지역(나라, 도시) 검색"
                 }.cellSetup({ cell, row in
@@ -41,6 +48,7 @@ class FilterViewController: FormViewController {
                     acController.delegate = self
                     self.present(acController, animated: true, completion: nil)
                 })
+            
             <<< DateInlineRow("date") {
                 $0.title = "일정"
                 $0.value = Date()
@@ -51,7 +59,10 @@ class FilterViewController: FormViewController {
                 $0.minimumDate = Date()
             }.cellSetup({ cell, row in
                     cell.imageView?.image = UIImage(named: "dateIcon")
-                })
+            }).onChange({ (row) in
+                self.dateChange = true
+            })
+            
             <<< LabelRow("location") {
                 $0.title = "내 위치"
                 }.cellSetup({ cell, row in
@@ -62,6 +73,7 @@ class FilterViewController: FormViewController {
                     placePicker.delegate = self
                     self.present(placePicker, animated: true, completion: nil)
                 })
+            
             <<< ActionSheetRow<String>("range") {
                 $0.title = "인원수"
                 $0.selectorTitle = "인원수를 정해주세요"
@@ -72,6 +84,7 @@ class FilterViewController: FormViewController {
                 }).onPresent { from, to in
                     to.popoverPresentationController?.permittedArrowDirections = .up
             }
+            
             <<< ActionSheetRow<String>("order") {
                 $0.title = "정렬"
                 $0.selectorTitle = "정렬 순서를 정해주세요"
@@ -85,6 +98,8 @@ class FilterViewController: FormViewController {
         
         self.tableView.backgroundColor = UIColor.white
         self.view.bringSubview(toFront: clearButton)
+        
+        self.form.setValues(self.filter.getDictionary())
     }
 
     override func didReceiveMemoryWarning() {
@@ -92,17 +107,46 @@ class FilterViewController: FormViewController {
     }
     
     @IBAction func didSelectCompeleteButton() {
-        print("complete")
-        self.delegate?.didSelectFilter(filter)
+        let valueDict = form.values()
+        print("complete \(valueDict)")
+        
+        if let search = valueDict["search"] as? String {
+            self.filter.searchString = search
+        }
+        
+        if let city = valueDict["city"] as? String {
+            self.filter.searchCity = city
+        }
+        
+        if let location = self.selectMyLocation {
+            self.filter.location = location
+        }
+        
+        if self.dateChange, let date = valueDict["date"] as? Date {
+            self.filter.date = date
+        }
+        
+        if let selectRange = valueDict["range"] as? String {
+            self.filter.personRange = selectRange
+        }
+        
+        if let order = valueDict["order"] as? String {
+            self.filter.order = order
+        }
+        
         self.navigationController?.popViewController(animated: true)
+        self.delegate?.didSelectFilter(filter)
     }
     
     @IBAction func close() {
+        self.filter.clear()
         self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func clear() {
-        
+        self.filter.clear()
+        self.form.setValues(self.filter.getDictionary())
+        self.tableView.reloadData()
     }
 }
 
@@ -127,13 +171,14 @@ extension FilterViewController: GMSAutocompleteViewControllerDelegate {
 }
 
 extension FilterViewController: GMSPlacePickerViewControllerDelegate {
-    
     func placePicker(_ viewController: GMSPlacePickerViewController, didPick place: GMSPlace) {
         viewController.dismiss(animated: true, completion: nil)
         print("Place : \(place)")
         
         let labelRow = form.rowBy(tag: "location") as! LabelRow
         labelRow.value = place.name
+        
+        self.selectMyLocation = place
     }
     
     func placePickerDidCancel(_ viewController: GMSPlacePickerViewController) {

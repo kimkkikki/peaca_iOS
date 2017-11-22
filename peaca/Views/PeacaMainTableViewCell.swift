@@ -11,6 +11,7 @@ import GooglePlaces
 import SwiftDate
 
 class PeacaMainTableViewCell: UITableViewCell {
+    var party:Party?
     
     @IBOutlet weak var statusLabel:UILabel!
     @IBOutlet weak var titleLabel:UILabel!
@@ -28,6 +29,7 @@ class PeacaMainTableViewCell: UITableViewCell {
     }
     
     func setParty(_ party:Party) {
+        self.party = party
         self.locationImage.image = nil
         self.profileImage.image = nil
         
@@ -55,13 +57,13 @@ class PeacaMainTableViewCell: UITableViewCell {
         
         if party.destination == nil {
             Common.getPlaceWithGooglePlaceID(party.destinationId, completion: { (place) in
-                self.locationLabel.text = place.name
-                party.destination = place
+                self.locationLabel.text = self.getLocationName(name: place.name, distance: party.distance)
+                self.party!.destination = place
             }) { (error) in
-                self.locationLabel.text = party.destinationName
+                self.locationLabel.text = self.getLocationName(name: party.destinationName, distance: party.distance)
             }
         } else {
-            self.locationLabel.text = party.destination?.name
+            self.locationLabel.text = self.getLocationName(name: (party.destination?.name)!, distance: party.distance)
         }
      
         self.dateLabel.text = party.date.string(format: .custom("yyyy.MM.dd (E) hh:mma"))
@@ -79,5 +81,14 @@ class PeacaMainTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+    }
+    
+    private func getLocationName(name:String, distance:Double) -> String {
+        if distance == 0 {
+            return name
+        } else {
+            let _round = Double(round(distance * 10) / 10)
+            return name + " (\(_round)km)"
+        }
     }
 }
