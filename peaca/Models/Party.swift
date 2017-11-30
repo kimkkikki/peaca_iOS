@@ -18,18 +18,12 @@ class Party {
     var writer:Profile
     var persons:Int
     var count:Int
-    var date:Date
-    var destinationId:String
-    var destinationName:String
-    var destinationPoint:CLLocation
-    var destinationAddress:String
-    var sourceId:String?
-    var sourcePoint:String?
-    var sourceAddress:String?
+    var date:DateInRegion
+    var destinationPlace:Place
+    var photo:PlacePhoto?
+    var sourcePlace:Place?
     var created:DateInRegion
     
-    var destinationImage:UIImage?
-    var destination:GMSPlace?
     var status:String
     var distance:Double
     
@@ -51,19 +45,19 @@ class Party {
             self.status = "I"
         }
         
-        let dateInRegion = DateInRegion(string: dict["date"] as! String, format: .iso8601(options: [.withInternetDateTime]))!
-        self.date = dateInRegion.absoluteDate
-        self.destinationId = dict["destination_id"] as! String
-        self.destinationName = dict["destination_name"] as! String
-        let point = dict["destination_point"] as! String
-        let split = point.components(separatedBy: ",")
-        self.destinationPoint = CLLocation(latitude: Double(split[1])!, longitude: Double(split[0])!)
-        self.destinationAddress = dict["destination_address"] as! String
-        self.created = DateInRegion(string: dict["created"] as! String, format: .iso8601(options: [.withInternetDateTime]))!.toRegion(Region.Local())
+        let dateInRegion = DateInRegion(string: (dict["date"] as! String), format: .iso8601(options: [.withInternetDateTime]))!
+        self.date = DateInRegion(absoluteDate: dateInRegion.absoluteDate).toRegion(Region.GMT())
         
-        self.sourceId = dict["source_id"] as? String
-        self.sourcePoint = dict["source_point"] as? String
-        self.sourceAddress = dict["source_address"] as? String
+        self.destinationPlace = Place(dict: dict["destination"] as! [String:Any])
+        if let source = dict["source"] as? [String:Any] {
+            self.sourcePlace =  Place(dict: source)
+        }
+        
+        if let _photo = dict["photo"] as? [String:Any] {
+            self.photo = PlacePhoto(dict: _photo)
+        }
+        
+        self.created = DateInRegion(string: dict["created"] as! String, format: .iso8601(options: [.withInternetDateTime]))!.toRegion(Region.Local())
         
         let userDict = dict["writer"] as! [String:Any]
         self.writer = Profile(dict:userDict)

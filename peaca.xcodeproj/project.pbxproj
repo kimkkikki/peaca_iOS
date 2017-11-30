@@ -14,6 +14,10 @@
 		54405B1E1F9F35F10055C4C5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54405B1D1F9F35F10055C4C5 /* GoogleService-Info.plist */; };
 		5443FAAD1FC54F6E00178C5E /* UIBarButtonItem+Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5443FAAC1FC54F6E00178C5E /* UIBarButtonItem+Badge.swift */; };
 		5443FAAF1FC54F8C00178C5E /* DefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5443FAAE1FC54F8C00178C5E /* DefaultsKeys.swift */; };
+		5443FAB11FCC0B4A00178C5E /* SelectImageForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5443FAB01FCC0B4A00178C5E /* SelectImageForm.swift */; };
+		5443FAB31FCC0B5F00178C5E /* SelectImageForm.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5443FAB21FCC0B5F00178C5E /* SelectImageForm.xib */; };
+		5443FAB51FCF9F7300178C5E /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5443FAB41FCF9F7300178C5E /* Place.swift */; };
+		5443FAB71FCFA60000178C5E /* PlacePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5443FAB61FCFA60000178C5E /* PlacePhoto.swift */; };
 		5448F85C1F7223EE00ABC8FE /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5448F85B1F7223EE00ABC8FE /* Profile.swift */; };
 		544F144D1F9D6B49007080DA /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F144C1F9D6B49007080DA /* NetworkManager.swift */; };
 		544F144F1F9DB431007080DA /* MyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F144E1F9DB431007080DA /* MyListViewController.swift */; };
@@ -88,6 +92,10 @@
 		54405B1D1F9F35F10055C4C5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5443FAAC1FC54F6E00178C5E /* UIBarButtonItem+Badge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Badge.swift"; sourceTree = "<group>"; };
 		5443FAAE1FC54F8C00178C5E /* DefaultsKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultsKeys.swift; sourceTree = "<group>"; };
+		5443FAB01FCC0B4A00178C5E /* SelectImageForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectImageForm.swift; sourceTree = "<group>"; };
+		5443FAB21FCC0B5F00178C5E /* SelectImageForm.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectImageForm.xib; sourceTree = "<group>"; };
+		5443FAB41FCF9F7300178C5E /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		5443FAB61FCFA60000178C5E /* PlacePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacePhoto.swift; sourceTree = "<group>"; };
 		5448F85B1F7223EE00ABC8FE /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		544F144C1F9D6B49007080DA /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		544F144E1F9DB431007080DA /* MyListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListViewController.swift; sourceTree = "<group>"; };
@@ -200,6 +208,8 @@
 				545BAE8C1F974BAF00211E3C /* PeacaIndicator.swift */,
 				54FEA1E41F5FD1FE009752AC /* GMSMapForm.swift */,
 				54FEA1E21F5FC8F2009752AC /* GMSMapForm.xib */,
+				5443FAB01FCC0B4A00178C5E /* SelectImageForm.swift */,
+				5443FAB21FCC0B5F00178C5E /* SelectImageForm.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -230,6 +240,8 @@
 		541D9C321F53D7FA0040A96C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				5443FAB41FCF9F7300178C5E /* Place.swift */,
+				5443FAB61FCFA60000178C5E /* PlacePhoto.swift */,
 				54E9AEBB1F5684F400914389 /* Party.swift */,
 				5448F85B1F7223EE00ABC8FE /* Profile.swift */,
 				54A0FD511F6F828C00654329 /* Filter.swift */,
@@ -505,6 +517,7 @@
 				54405B1E1F9F35F10055C4C5 /* GoogleService-Info.plist in Resources */,
 				5498E1061F8EEC0A00950DC0 /* NotoSansCJKkr-Regular.otf in Resources */,
 				5498E1071F8EEC0A00950DC0 /* NotoSansCJKkr-Thin.otf in Resources */,
+				5443FAB31FCC0B5F00178C5E /* SelectImageForm.xib in Resources */,
 				54FEA1E31F5FC8F2009752AC /* GMSMapForm.xib in Resources */,
 				5473A30B1F45152E00CCA3B7 /* LaunchScreen.storyboard in Resources */,
 				5473A3081F45152E00CCA3B7 /* Assets.xcassets in Resources */,
@@ -754,6 +767,7 @@
 				54A0FD4B1F6A7A1E00654329 /* DetailViewController.swift in Sources */,
 				545BAE8D1F974BAF00211E3C /* PeacaIndicator.swift in Sources */,
 				5443FAAF1FC54F8C00178C5E /* DefaultsKeys.swift in Sources */,
+				5443FAB11FCC0B4A00178C5E /* SelectImageForm.swift in Sources */,
 				5473A3011F45152E00CCA3B7 /* AppDelegate.swift in Sources */,
 				54A0FD4F1F6F4B1100654329 /* FilterViewController.swift in Sources */,
 				54405B1A1F9DCAF60055C4C5 /* SettingViewController.swift in Sources */,
@@ -764,6 +778,7 @@
 				5443FAAD1FC54F6E00178C5E /* UIBarButtonItem+Badge.swift in Sources */,
 				54E60AD21F9873020011B057 /* Common.swift in Sources */,
 				54FEA1E51F5FD1FE009752AC /* GMSMapForm.swift in Sources */,
+				5443FAB51FCF9F7300178C5E /* Place.swift in Sources */,
 				5498E10B1F8F634D00950DC0 /* PartyMember.swift in Sources */,
 				54405B181F9DC33A0055C4C5 /* MyListTableViewCell.swift in Sources */,
 				5498E1151F9499F600950DC0 /* MenuViewController.swift in Sources */,
@@ -772,6 +787,7 @@
 				54FEA1E01F5F9370009752AC /* WriteFormViewController.swift in Sources */,
 				54A0FD541F6F959F00654329 /* ChatViewController.swift in Sources */,
 				5498E10D1F905B0900950DC0 /* ChatMemberViewController.swift in Sources */,
+				5443FAB71FCFA60000178C5E /* PlacePhoto.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

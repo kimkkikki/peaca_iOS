@@ -44,26 +44,28 @@ class MainViewController: UIViewController {
             self.hasNext = true
         }
         
-        self.isLoading = true
-        NetworkManager.getParty(page: self.page, location: myLocation, filter: self.filter) { (jsonArray) in
-            self.isLoading = false
-            
-            if isRefresh {
-                self.partyList.removeAll()
-            }
-            
-            self.page = self.page + 1
-            
-            if jsonArray.count == 0 {
-                self.hasNext = false
-            } else {
-                for dict in jsonArray {
-                    let party = Party(dict: dict as! [String:Any])
-                    self.partyList.append(party)
+        if !self.isLoading {
+            self.isLoading = true
+            NetworkManager.getParty(page: self.page, location: myLocation, filter: self.filter) { (jsonArray) in
+                if isRefresh {
+                    self.partyList.removeAll()
+                }
+                
+                self.page = self.page + 1
+                
+                if jsonArray.count == 0 {
+                    self.hasNext = false
+                } else {
+                    for dict in jsonArray {
+                        let party = Party(dict: dict as! [String:Any])
+                        self.partyList.append(party)
+                    }
                 }
                 self.mainTableView.reloadData()
+                self.isLoading = false
+                completion?()
             }
-            
+        } else {
             completion?()
         }
     }
@@ -125,10 +127,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         if !self.isLoading && self.hasNext && offsetY > contentHeight - scrollView.frame.size.height {
             // TODO:리프레쉬할때 해야댐
             print("loadmore")
-            self.isLoading = true
-            getDataFromServer(isRefresh: false, myLocation: self.myLocation, completion: {
-                self.isLoading = false
-            })
+            getDataFromServer(isRefresh: false, myLocation: self.myLocation, completion: nil)
         }
     }
 }

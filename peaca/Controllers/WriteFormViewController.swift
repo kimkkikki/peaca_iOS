@@ -24,6 +24,8 @@ class WriteFormViewController: FormViewController {
     var sourcePlace:GMSPlace?
     var ref: DatabaseReference!
     
+    var placePhotos:[PlacePhoto] = [PlacePhoto]()
+    
     enum selectMap {
         case destination
         case source
@@ -36,7 +38,9 @@ class WriteFormViewController: FormViewController {
         
         ref = Database.database().reference()
         
-        form +++ Section()
+        form +++ Section(){
+            $0.header?.height = { 0 }
+            }
             <<< TextRow("title"){ row in
                 row.placeholder = "모임 제목을 입력하세요"
                 row.add(rule: RuleRequired())
@@ -101,6 +105,12 @@ class WriteFormViewController: FormViewController {
                     self.curruentMap = selectMap.destination
                 })
             <<< GMSMapFormRow("destination_map") {
+                $0.hidden = "$destination_map == false"
+                
+                $0.value = false
+                $0.cell.height = { 150 }
+            }
+            <<< SelectImageFormRow("destination_images") {
                 $0.hidden = "$destination_map == false"
                 
                 $0.value = false
@@ -239,6 +249,10 @@ class WriteFormViewController: FormViewController {
             }
         }
         
+        if self.placePhotos.count > 0 {
+            params["photo"] = self.placePhotos[0].id
+        }
+        
         let location = CLLocation(latitude: self.destinationPlace!.coordinate.latitude, longitude: self.destinationPlace!.coordinate.longitude)
         params["timezone"] = location.timeZone.identifier
         
@@ -271,6 +285,18 @@ extension WriteFormViewController: GMSPlacePickerViewControllerDelegate {
             mapButton.cell.detailTextLabel?.text = place.name
             
             destinationPlace = place
+            
+            NetworkManager.getPlacePhotos(placeId: place.placeID, completion: { (jsonArray) in
+                self.placePhotos.removeAll()
+                for dict in jsonArray {
+                    let photo = PlacePhoto(dict: dict as! [String:Any])
+                    self.placePhotos.append(photo)
+                }
+                
+                let destinationImagesRow = self.form.rowBy(tag: "destination_images") as! SelectImageFormRow
+                destinationImagesRow.cell.setPlacePhotos(self.placePhotos)
+            })
+            
         } else {
             let mapRow = form.rowBy(tag: "source_map") as! GMSMapFormRow
             mapRow.cell.setMapPoint(place: place)
@@ -279,6 +305,7 @@ extension WriteFormViewController: GMSPlacePickerViewControllerDelegate {
             mapButton.cell.detailTextLabel?.text = place.name
             
             sourcePlace = place
+            NetworkManager.getPlacePhotos(placeId: place.placeID, completion: nil)
         }
     }
     

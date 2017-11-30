@@ -10,6 +10,21 @@ import Foundation
 import GooglePlaces
 
 class Common {
+    class func getMetadataWithGooglePlaceID(_ id:String, completion:@escaping ([GMSPlacePhotoMetadata]) -> (), failure:@escaping () -> ()) {
+        GMSPlacesClient.shared().lookUpPhotos(forPlaceID: id) { (photos, error) -> Void in
+            if let error = error {
+                print("getPhotoWithGooglePlaceID, lookUpPhotos Error: \(error.localizedDescription)")
+                failure()
+            } else {
+                if let metas = photos?.results {
+                    completion(metas)
+                } else {
+                    failure()
+                }
+            }
+        }
+    }
+    
     class func getPhotoWithGooglePlaceID(_ id:String, completion:@escaping (UIImage) -> (), failure:@escaping () -> ()) {
         GMSPlacesClient.shared().lookUpPhotos(forPlaceID: id) { (photos, error) -> Void in
             if let error = error {

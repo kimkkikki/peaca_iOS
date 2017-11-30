@@ -8,6 +8,7 @@
 
 import UIKit
 import SwipeCellKit
+import SDWebImage
 
 class MyListTableViewCell: SwipeTableViewCell {
     
@@ -44,19 +45,25 @@ class MyListTableViewCell: SwipeTableViewCell {
         
         self.profileImageView.sd_setImage(with: URL(string:party.writer.pictureUrl), completed: nil)
         
-        if party.destinationImage == nil {
-            Common.getPhotoWithGooglePlaceID(party.destinationId, completion: { (photo) in
-                self.locationImageView.image = photo
-                party.destinationImage = photo
-            }, failure: {
-                self.locationImageView.image = UIImage(named: "defaultLocationImage")
-                party.destinationImage = UIImage(named: "defaultLocationImage")
-            })
+        if let photo = party.photo {
+            self.locationImageView.sd_setImage(with: URL(string:photo.imageUrl), completed: nil)
         } else {
-            self.locationImageView.image = party.destinationImage
+            self.locationImageView.image = UIImage(named: "defaultLocationImage")
         }
         
-        self.dateLabel.text = party.date.string(format: .custom("yyyy.MM.dd (E) hh:mma"))
+//        if party.destinationImage == nil {
+//            Common.getPhotoWithGooglePlaceID(party.destinationPlace.id, completion: { (photo) in
+//                self.locationImageView.image = photo
+//                party.destinationImage = photo
+//            }, failure: {
+//                self.locationImageView.image = UIImage(named: "defaultLocationImage")
+//                party.destinationImage = UIImage(named: "defaultLocationImage")
+//            })
+//        } else {
+//            self.locationImageView.image = party.destinationImage
+//        }
+        
+        self.dateLabel.text = party.date.string(format: .custom("yyyy.MM.dd (E) HH:mm"))
         
         if party.status == "I" {
             self.statusLabel.backgroundColor = UIColor(patternImage: UIImage(named:"ing_label_background")!)

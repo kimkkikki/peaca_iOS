@@ -66,28 +66,27 @@ class DetailViewController: UIViewController {
         self.profileImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileClick)))
         self.nicknameLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileClick)))
         
-        self.mapView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(mapClick)))
-        
         // Title
         self.titleLabel.text = party.title
         
         self.contentsTextView.text = party.contents
         self.dateLabel.text = party.date.string(format: .custom("yyyy.MM.dd (E) hh:mma"))
         
-        let camera = GMSCameraPosition.camera(withTarget: party.destinationPoint.coordinate, zoom: 11.0)
+        let camera = GMSCameraPosition.camera(withTarget: party.destinationPlace.point.coordinate, zoom: 11.0)
         self.mapView.camera = camera
         
-        let marker = GMSMarker(position: party.destinationPoint.coordinate)
-        marker.title = party.destinationName
+        let marker = GMSMarker(position: party.destinationPlace.point.coordinate)
+        marker.title = party.destinationPlace.name
         marker.icon = UIImage(named: "location_pin_1")
         marker.map = self.mapView
         
-        self.locationImage.image = self.party.destinationImage
-        if let locationName = self.party.destination?.name {
-            self.locationNameLabel.text = locationName
+        if let photo = party.photo {
+            self.locationImage.sd_setImage(with: URL(string:photo.imageUrl), completed: nil)
         } else {
-            self.locationNameLabel.text = self.party.destinationName
+            self.locationImage.image = UIImage(named: "defaultLocationImage")
         }
+        
+        self.locationNameLabel.text = self.party.destinationPlace.name
         
         self.personsLabel.text = "\(party.count)/\(party.persons)"
         
@@ -207,9 +206,19 @@ class DetailViewController: UIViewController {
         self.performSegue(withIdentifier: "go_profile", sender: self.party.writer)
     }
     
-    @objc func mapClick(sender:AnyObject) {
+    @IBAction func mapClick() {
         if (UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!)) {
-            UIApplication.shared.openURL(URL(string:"comgooglemaps://?center=\(self.party.destinationPoint.coordinate.latitude),\(self.party.destinationPoint.coordinate.longitude)&zoom=14")!)
+            let alert = CDAlertView(title: "구글맵이 켜집니다.", message: "구글맵이 켜집니다", type: .custom(image: UIImage(named:"peacaSymbol")!))
+            let goGoogleAction = CDAlertViewAction(title: "OK", font: nil, textColor: nil, backgroundColor: nil) { (action) in
+                let options = [UIApplicationOpenURLOptionUniversalLinksOnly : true]
+                let url = URL(string:"comgooglemaps://?center=\(self.party.destinationPlace.point.coordinate.latitude),\(self.party.destinationPlace.point.coordinate.longitude)&zoom=14")!
+                UIApplication.shared.open(url, options: options, completionHandler: nil)
+            }
+            let noAction = CDAlertViewAction(title: "Cancel")
+            alert.add(action: noAction)
+            alert.add(action: goGoogleAction)
+            alert.show()
+            
         } else {
             print("Can't use comgooglemaps://");
         }

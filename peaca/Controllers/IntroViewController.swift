@@ -149,6 +149,9 @@ class IntroViewController: UIViewController {
             case .success(let grantedPermissions, let declinedPermissions, let accessToken):
                 print("Logged in!")
                 
+                print("declinedPermissions : \(declinedPermissions)")
+                print("accessToken : \(accessToken)")
+                
                 if !grantedPermissions.contains("email") || !grantedPermissions.contains("public_profile") || !grantedPermissions.contains("user_birthday") {
                     // Do work
                     print("need permission")

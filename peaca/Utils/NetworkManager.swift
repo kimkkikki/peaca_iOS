@@ -27,7 +27,7 @@ let APP_STATUS = APP_TARGET.PRODUCTION
 
 class NetworkManager {
     
-    class private func getUrl() -> String {
+    class func getUrl() -> String {
         switch APP_STATUS {
         case .LOCAL:
             return "http://localhost:8000"
@@ -200,6 +200,14 @@ class NetworkManager {
     class func sendPushToPartyMembers(partyId:Int, params:Parameters, completion:VoidCompletion?) {
         sendToServer(endPoint: "/apis/party/\(partyId)/push", method: .post, params: params, progress: false) { (value) in
             completion?()
+        }
+    }
+    
+    class func getPlacePhotos(placeId:String, completion:ArrayCompletion?) {
+        sendToServer(endPoint: "/apis/place/\(placeId)", method: .get, params: nil, progress: false) { (value) in
+            if let jsonArray = value as? NSArray {
+                completion?(jsonArray)
+            }
         }
     }
 }

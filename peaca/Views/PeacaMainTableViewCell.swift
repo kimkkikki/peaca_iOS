@@ -43,30 +43,15 @@ class PeacaMainTableViewCell: UITableViewCell {
         
         self.profileImage.sd_setImage(with: URL(string:party.writer.pictureUrl), completed: nil)
         
-        if party.destinationImage == nil {
-            Common.getPhotoWithGooglePlaceID(party.destinationId, completion: { (photo) in
-                self.locationImage.image = photo
-                party.destinationImage = photo
-            }, failure: {
-                self.locationImage.image = UIImage(named: "defaultLocationImage")
-                party.destinationImage = UIImage(named: "defaultLocationImage")
-            })
+        if let photo = party.photo {
+            self.locationImage.sd_setImage(with: URL(string:photo.imageUrl), completed: nil)
         } else {
-            self.locationImage.image = party.destinationImage
+            self.locationImage.image = UIImage(named: "defaultLocationImage")
         }
         
-        if party.destination == nil {
-            Common.getPlaceWithGooglePlaceID(party.destinationId, completion: { (place) in
-                self.locationLabel.text = self.getLocationName(name: place.name, distance: party.distance)
-                self.party!.destination = place
-            }) { (error) in
-                self.locationLabel.text = self.getLocationName(name: party.destinationName, distance: party.distance)
-            }
-        } else {
-            self.locationLabel.text = self.getLocationName(name: (party.destination?.name)!, distance: party.distance)
-        }
-     
-        self.dateLabel.text = party.date.string(format: .custom("yyyy.MM.dd (E) hh:mma"))
+        self.locationLabel.text = self.getLocationName(name: party.destinationPlace.name, distance: party.distance)
+        
+        self.dateLabel.text = party.date.string(custom:"yyyy.MM.dd (E) HH:mm")
         
         if party.status == "I" {
             self.statusLabel.backgroundColor = UIColor(patternImage: UIImage(named:"ing_label_background")!)
@@ -77,6 +62,30 @@ class PeacaMainTableViewCell: UITableViewCell {
         }
         
         self.personsLabel.text = "\(party.count)/\(party.persons)"
+        
+//
+//        if party.destinationImage == nil {
+//            Common.getPhotoWithGooglePlaceID(party.destinationPlace.id, completion: { (photo) in
+//                self.locationImage.image = photo
+//                party.destinationImage = photo
+//            }, failure: {
+//                self.locationImage.image = UIImage(named: "defaultLocationImage")
+//                party.destinationImage = UIImage(named: "defaultLocationImage")
+//            })
+//        } else {
+//            self.locationImage.image = party.destinationImage
+//        }
+//
+//        if party.destination == nil {
+//            Common.getPlaceWithGooglePlaceID(party.destinationPlace.id, completion: { (place) in
+//                self.locationLabel.text = self.getLocationName(name: place.name, distance: party.distance)
+//                self.party!.destination = place
+//            }) { (error) in
+//                self.locationLabel.text = self.getLocationName(name: party.destinationPlace.name, distance: party.distance)
+//            }
+//        } else {
+//            self.locationLabel.text = self.getLocationName(name: (party.destination?.name)!, distance: party.distance)
+//        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

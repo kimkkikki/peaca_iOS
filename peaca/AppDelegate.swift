@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         GMSServices.provideAPIKey("AIzaSyC78jM037aCOH3oRd6SbWVwdMVorOXf8to")
         GMSPlacesClient.provideAPIKey("AIzaSyC78jM037aCOH3oRd6SbWVwdMVorOXf8to")
         
-        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+//        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         UINavigationBar.appearance().shadowImage = UIColor.uglyYellow.as5ptImage()
         
         if #available(iOS 10.0, *) {
