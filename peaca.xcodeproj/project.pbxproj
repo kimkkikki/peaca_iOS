@@ -49,9 +49,11 @@
 		54A0FD4F1F6F4B1100654329 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A0FD4E1F6F4B1100654329 /* FilterViewController.swift */; };
 		54A0FD521F6F828C00654329 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A0FD511F6F828C00654329 /* Filter.swift */; };
 		54A0FD541F6F959F00654329 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A0FD531F6F959F00654329 /* ChatViewController.swift */; };
+		54B7207F1FD12B7D007812C5 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B7207E1FD12B7D007812C5 /* AlertManager.swift */; };
 		54E60ACF1F9866B90011B057 /* ChatMemberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E60ACE1F9866B90011B057 /* ChatMemberTableViewCell.swift */; };
 		54E60AD21F9873020011B057 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E60AD11F9873020011B057 /* Common.swift */; };
 		54E9AEBC1F5684F400914389 /* Party.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E9AEBB1F5684F400914389 /* Party.swift */; };
+		54F46C601FD6658600C841E5 /* ProfilePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F46C5F1FD6658600C841E5 /* ProfilePhoto.swift */; };
 		54FEA1E01F5F9370009752AC /* WriteFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEA1DF1F5F9370009752AC /* WriteFormViewController.swift */; };
 		54FEA1E31F5FC8F2009752AC /* GMSMapForm.xib in Resources */ = {isa = PBXBuildFile; fileRef = 54FEA1E21F5FC8F2009752AC /* GMSMapForm.xib */; };
 		54FEA1E51F5FD1FE009752AC /* GMSMapForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FEA1E41F5FD1FE009752AC /* GMSMapForm.swift */; };
@@ -135,9 +137,11 @@
 		54A0FD4E1F6F4B1100654329 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		54A0FD511F6F828C00654329 /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		54A0FD531F6F959F00654329 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		54B7207E1FD12B7D007812C5 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		54E60ACE1F9866B90011B057 /* ChatMemberTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMemberTableViewCell.swift; sourceTree = "<group>"; };
 		54E60AD11F9873020011B057 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		54E9AEBB1F5684F400914389 /* Party.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Party.swift; sourceTree = "<group>"; };
+		54F46C5F1FD6658600C841E5 /* ProfilePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePhoto.swift; sourceTree = "<group>"; };
 		54FD43AA1FA0256D00735299 /* peaca.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = peaca.entitlements; sourceTree = "<group>"; };
 		54FEA1DF1F5F9370009752AC /* WriteFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WriteFormViewController.swift; sourceTree = "<group>"; };
 		54FEA1E21F5FC8F2009752AC /* GMSMapForm.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GMSMapForm.xib; sourceTree = "<group>"; };
@@ -244,6 +248,7 @@
 				5443FAB61FCFA60000178C5E /* PlacePhoto.swift */,
 				54E9AEBB1F5684F400914389 /* Party.swift */,
 				5448F85B1F7223EE00ABC8FE /* Profile.swift */,
+				54F46C5F1FD6658600C841E5 /* ProfilePhoto.swift */,
 				54A0FD511F6F828C00654329 /* Filter.swift */,
 				5498E10A1F8F634D00950DC0 /* PartyMember.swift */,
 			);
@@ -344,6 +349,7 @@
 			children = (
 				54E60AD11F9873020011B057 /* Common.swift */,
 				544F144C1F9D6B49007080DA /* NetworkManager.swift */,
+				54B7207E1FD12B7D007812C5 /* AlertManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -582,14 +588,9 @@
 				"${BUILT_PRODUCTS_DIR}/JSQSystemSoundPlayer/JSQSystemSoundPlayer.framework",
 				"${BUILT_PRODUCTS_DIR}/KRActivityIndicatorView/KRActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/KRProgressHUD/KRProgressHUD.framework",
-				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
-				"${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/PMAlertController/PMAlertController.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-				"${BUILT_PRODUCTS_DIR}/SCLAlertView/SCLAlertView.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SideMenu/SideMenu.framework",
-				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftDate/SwiftDate.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftRichString/SwiftRichString.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework",
@@ -615,14 +616,9 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSQSystemSoundPlayer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KRActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KRProgressHUD.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarqueeLabel.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NotificationBannerSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PMAlertController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCLAlertView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SideMenu.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftDate.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftRichString.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyUserDefaults.framework",
@@ -761,6 +757,7 @@
 			files = (
 				541D9C1C1F53D71B0040A96C /* IntroViewController.swift in Sources */,
 				54A0FD521F6F828C00654329 /* Filter.swift in Sources */,
+				54B7207F1FD12B7D007812C5 /* AlertManager.swift in Sources */,
 				5498E1131F94518900950DC0 /* UIColor+Peaca.swift in Sources */,
 				54E9AEBC1F5684F400914389 /* Party.swift in Sources */,
 				544F144D1F9D6B49007080DA /* NetworkManager.swift in Sources */,
@@ -788,6 +785,7 @@
 				54A0FD541F6F959F00654329 /* ChatViewController.swift in Sources */,
 				5498E10D1F905B0900950DC0 /* ChatMemberViewController.swift in Sources */,
 				5443FAB71FCFA60000178C5E /* PlacePhoto.swift in Sources */,
+				54F46C601FD6658600C841E5 /* ProfilePhoto.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

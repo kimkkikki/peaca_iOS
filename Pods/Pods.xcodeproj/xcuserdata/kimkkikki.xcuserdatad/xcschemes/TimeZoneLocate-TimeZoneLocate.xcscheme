@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'D7A6AACDD8D36A6F7D7CF4A7C178A7A0'
+               BlueprintIdentifier = '4D9D37CD9C8EF85944B847F118C14216'
                BlueprintName = 'TimeZoneLocate-TimeZoneLocate'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'TimeZoneLocate.bundle'>

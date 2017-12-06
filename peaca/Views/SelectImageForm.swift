@@ -53,8 +53,13 @@ public class SelectImageFormCell: Cell<Bool>, CellType {
                 
                 let width = 120.0 + 110.0 * CGFloat(index)
                 self.scrollView.contentSize = CGSize(width: width, height: self.scrollView.frame.size.height)
-                print("add images : \(placePhoto)")
             }
+        }
+        
+        if placePhotos.count > 0 {
+            self.row.value = true
+        } else {
+            self.row.value = false
         }
     }
 }

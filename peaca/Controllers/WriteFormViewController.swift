@@ -11,7 +11,6 @@ import Eureka
 import GoogleMaps
 import GooglePlaces
 import GooglePlacePicker
-import NotificationBannerSwift
 import SwiftDate
 import Alamofire
 import SwiftyUserDefaults
@@ -23,6 +22,7 @@ class WriteFormViewController: FormViewController {
     var destinationPlace:GMSPlace?
     var sourcePlace:GMSPlace?
     var ref: DatabaseReference!
+    var delegate:MainViewControllerDelegate?
     
     var placePhotos:[PlacePhoto] = [PlacePhoto]()
     
@@ -111,7 +111,7 @@ class WriteFormViewController: FormViewController {
                 $0.cell.height = { 150 }
             }
             <<< SelectImageFormRow("destination_images") {
-                $0.hidden = "$destination_map == false"
+                $0.hidden = "$destination_images == false"
                 
                 $0.value = false
                 $0.cell.height = { 150 }
@@ -173,7 +173,12 @@ class WriteFormViewController: FormViewController {
         print(valueDict)
         
         if (valueDict["title"] as? String) == nil {
-            NotificationBanner(title:"제목을 입력하세요", style:.danger).show()
+            AlertManager.showDefaultOKAlert(title: "등록할 수 없습니다", message: "제목을 입력하세요")
+            return false
+        }
+        
+        if (valueDict["contents"] as? String) == nil {
+            AlertManager.showDefaultOKAlert(title: "등록할 수 없습니다", message: "내용을 입력하세요")
             return false
         }
         
@@ -184,7 +189,7 @@ class WriteFormViewController: FormViewController {
 //        }
         
         if destinationPlace == nil {
-            NotificationBanner(title:"목적지를 설정해야 합니다", style:.danger).show()
+            AlertManager.showDefaultOKAlert(title: "등록할 수 없습니다", message: "목적지를 설정해야 합니다")
             return false
         }
         
@@ -266,6 +271,7 @@ class WriteFormViewController: FormViewController {
                               "master": true] as [String : Any]
             
             self.ref.child("members").child("\(id)").child(Defaults[.id] as String!).setValue(memberData)
+            self.delegate?.refreshContents()
             self.navigationController?.popViewController(animated: true)
         }
     }
@@ -295,6 +301,7 @@ extension WriteFormViewController: GMSPlacePickerViewControllerDelegate {
                 
                 let destinationImagesRow = self.form.rowBy(tag: "destination_images") as! SelectImageFormRow
                 destinationImagesRow.cell.setPlacePhotos(self.placePhotos)
+                
             })
             
         } else {

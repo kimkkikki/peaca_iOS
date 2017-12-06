@@ -10,7 +10,6 @@ import Foundation
 import Alamofire
 import SwiftyUserDefaults
 import KRProgressHUD
-import CDAlertView
 import MapKit
 import SystemConfiguration
 
@@ -23,7 +22,7 @@ typealias DictCompletion = ([String:Any]) -> ()
 typealias ArrayCompletion = (NSArray) -> ()
 typealias VoidCompletion = () -> ()
 
-let APP_STATUS = APP_TARGET.PRODUCTION
+let APP_STATUS = APP_TARGET.LOCAL
 
 class NetworkManager {
     
@@ -68,17 +67,19 @@ class NetworkManager {
     }
     
     class private func handleError(error:Error?) {
-        let alert = CDAlertView(title: "error!", message: String(describing: error), type: .custom(image: UIImage(named:"peacaSymbol")!))
-        let doneAction = CDAlertViewAction(title: "OK")
-        alert.add(action: doneAction)
-        alert.show()
+        AlertManager.showDefaultOKAlert(title: "error!", message: String(describing: error))
     }
     
     class private func isNotConnectToNetwork() {
-        let alert = CDAlertView(title: "네트워크에 연결되어 있지 않습니다.", message: "앱 사용을 위해 네트워크 접속이 필요합니다.", type: .custom(image: UIImage(named:"peacaSymbol")!))
-        let doneAction = CDAlertViewAction(title: "OK")
-        alert.add(action: doneAction)
-        alert.show()
+        AlertManager.showDefaultOKAlert(title: "네트워크에 연결되어 있지 않습니다.", message: "앱 사용을 위해 네트워크 접속이 필요합니다.")
+    }
+    
+    class public func showProgress() {
+        KRProgressHUD.show()
+    }
+    
+    class public func stopProgress() {
+        KRProgressHUD.dismiss()
     }
     
     class private func sendToServer(endPoint: String, method: HTTPMethod, params: Parameters?, progress: Bool, completion:@escaping (Any?) -> ()) {
@@ -96,7 +97,7 @@ class NetworkManager {
                         completion(response.result.value)
                     }
                 } else {
-                    if progress {
+                    if KRProgressHUD.isVisible {
                         KRProgressHUD.dismiss({
                             handleError(error: response.error)
                         })
@@ -204,7 +205,7 @@ class NetworkManager {
     }
     
     class func getPlacePhotos(placeId:String, completion:ArrayCompletion?) {
-        sendToServer(endPoint: "/apis/place/\(placeId)", method: .get, params: nil, progress: false) { (value) in
+        sendToServer(endPoint: "/apis/place/\(placeId)", method: .get, params: nil, progress: true) { (value) in
             if let jsonArray = value as? NSArray {
                 completion?(jsonArray)
             }

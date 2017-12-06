@@ -10,6 +10,10 @@ import UIKit
 import SwiftyUserDefaults
 import MapKit
 
+protocol MainViewControllerDelegate {
+    func refreshContents()
+}
+
 class MainViewController: UIViewController {
     var page = 1
     var isLoading = false
@@ -94,6 +98,8 @@ class MainViewController: UIViewController {
             controller.filter = self.filter
         } else if let controller = segue.destination as? MenuViewController {
             controller.delegate = self
+        } else if let controller = segue.destination as? WriteFormViewController {
+            controller.delegate = self
         }
     }
     
@@ -132,6 +138,12 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+extension MainViewController: MainViewControllerDelegate {
+    func refreshContents() {
+        getDataFromServer(isRefresh: true, myLocation: self.myLocation, completion: nil)
+    }
+}
+
 extension MainViewController: FilterViewControllerDelegate {
     func didSelectFilter(_ filter: Filter) {
         print("filter delegate call : \(self.filter)")
@@ -152,7 +164,7 @@ extension MainViewController: MenuViewControllerDelegate {
         } else if selectedMenu == "menu_list" {
             self.performSegue(withIdentifier: "go_my_list", sender: nil)
         } else if selectedMenu == "menu_profile" {
-            print("profile")
+//            self.performSegue(withIdentifier: "go_profile", sender: self.party.writer)
         } else {
             self.performSegue(withIdentifier: "go_setting", sender: nil)
         }
