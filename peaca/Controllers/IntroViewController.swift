@@ -274,7 +274,7 @@ class IntroViewController: UIViewController {
         if self.checkFacebookPermission() && self.checkUserDefaults() && self.checkFirebaseAuth() {
             self.firebaseUser = Auth.auth().currentUser
             // TODO: 데이터는 로그인 할때만?
-//            self.getFacebookData()
+            self.getFacebookData()
             self.goMain()
         } else {
             print("need LogIn")
